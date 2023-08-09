@@ -1,5 +1,6 @@
 const User = require("../../models/userModel/userModel");
 const { HashPassword, ComparePassword } = require("../../functions/functions");
+const { createJWT } = require("../../functions/auth/authFunctions");
 
 const SignUp = async(req, res) => {
 
@@ -14,7 +15,10 @@ const SignUp = async(req, res) => {
         req.body.password = await HashPassword(req.body.password)
 
         const newUser = await User.create(req.body);
-        res.status(200).json(newUser);
+
+        const token = createJWT(newUser);
+
+        res.status(200).json({user : newUser, token : token});
 }
 
 const LogIn = async(req, res) => {
@@ -30,7 +34,10 @@ const LogIn = async(req, res) => {
     const isSamePassword = await ComparePassword(req.body.password, userFound.password);
 
     if(isSamePassword == true){
-      res.status(200).json(userFound);
+
+      const token = createJWT(userFound);
+
+      res.status(200).json({user : userFound, token: token});
       return;
     }
 
