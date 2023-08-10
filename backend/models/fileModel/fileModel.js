@@ -20,6 +20,10 @@ var fileSchema = new mongoose.Schema({
     filePath: {
         type: String,
         required: true
+    },
+    fileSizeMb: {
+        type: String,
+        required: true
     }
 },{
     timestamps : true

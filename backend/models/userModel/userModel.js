@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { any } = require("../../middlewares/multer");
 
 var userSchema = new mongoose.Schema({
     name: {
@@ -47,6 +48,9 @@ var userSchema = new mongoose.Schema({
     },
     totalSorageUsed: {
         type: Number
+    },
+    profileAvatar : {
+        type: String
     }
 },{
     timestamps : true

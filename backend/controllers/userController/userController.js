@@ -1,6 +1,7 @@
 const UserModel = require("../../models/userModel/userModel");
-const { HashPassword, ComparePassword } = require("../../functions/functions");
+const { HashPassword, ComparePassword, ConvertToBase64, asyncWrapper } = require("../../functions/functions");
 const { createJWT } = require("../../functions/auth/authFunctions");
+const userModel = require("../../models/userModel/userModel");
 
 const SignUp = async(req, res) => {
 
@@ -44,4 +45,17 @@ const LogIn = async(req, res) => {
     res.status(200).json({ message : "Mot de passe incorrect !"})
 }
 
-module.exports = {SignUp, LogIn};
+const UpdateUserAvatar = asyncWrapper( async (req, res) => {
+  const userId = req.params.userId;
+  console.log(userId);
+  
+  const filePath = req.file.path;
+  const fileName = req.file.originalname;
+  //const { base64Image } = req.body
+
+  const user = await userModel.findByIdAndUpdate(userId,{ profileAvatar : filePath});
+
+  res.status(200).json(user);
+});
+
+module.exports = {SignUp, LogIn, UpdateUserAvatar};

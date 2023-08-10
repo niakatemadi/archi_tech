@@ -1,16 +1,16 @@
 const upload = require("../middlewares/multer");
 const express = require("express");
-const { getFiles, addFile, downloadFile } = require("../controllers/fileController/fileController");
+const fileController = require("../controllers/fileController/fileController");
 const { protect } = require("../functions/auth/authFunctions");
 
 const router = express.Router();
 
-router.route("/").get(getFiles).post(upload.single("file"), addFile);
-router.route("/download/:id").get(downloadFile);
+//router.route("/download/:id").get(downloadFile);
+//router.route("/").get(getFiles).post(upload.single("file"), addFile);
+router.get("/:id", fileController.getFiles);
 
-/*
-router.post("/addFile", protect, (req,res) => {
-    res.json("Hello file");
-})*/
+router.get("/download/:id", fileController.downloadFile);
+
+router.post("/", upload.single("file"), fileController.addFile);
 
 module.exports = router;

@@ -5,10 +5,12 @@ const { findById } = require("../../models/userModel/userModel");
 
 const getFiles = async (req, res) => {
     try {
-        const files = FileModel.find();
+        console.log('aaaaalller');
+        const files = await FileModel.findById(req.params.id);
         res.status(200).json({ files });
-
+        
     }catch(error){
+        console.log('mamamaamam');
         console.log(error);
     }
 }
@@ -18,7 +20,8 @@ const addFile = asyncWrapper( async (req, res) => {
         const { fileLabel } = req.body;
         const filePath = req.file.path;
         const fileName = req.file.originalname;
-        const file = await FileModel.create({fileName, filePath, folderId : "456789", userId : "010101", fileLabel});
+        const fileSizeMb = req.file.size;
+        const file = await FileModel.create({fileName, filePath, folderId : "456789", userId : "010101", fileLabel, fileSizeMb});
         res.status(201).json({ file })
     }catch(error){
         console.log(error);
