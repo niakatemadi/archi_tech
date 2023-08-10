@@ -8,4 +8,14 @@ const bcrypt = require("bcrypt");
     return bcrypt.hash(password, 10)
   }
 
- module.exports = {ComparePassword, HashPassword}
+const asyncWrapper = (fn) => {
+  return async (req,res,next) => {
+    try {
+      await fn(req,res,next);
+    }catch(error){
+      next(error);
+    }
+  }
+}
+
+ module.exports = {ComparePassword, HashPassword, asyncWrapper}

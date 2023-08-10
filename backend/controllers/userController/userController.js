@@ -1,10 +1,10 @@
-const User = require("../../models/userModel/userModel");
+const UserModel = require("../../models/userModel/userModel");
 const { HashPassword, ComparePassword } = require("../../functions/functions");
 const { createJWT } = require("../../functions/auth/authFunctions");
 
 const SignUp = async(req, res) => {
 
-        const userFound = await User.findOne({email : req.body.email});
+        const userFound = await UserModel.findOne({email : req.body.email});
     
         if( userFound!= null ){
           res.json({ message : "user already exist" });
@@ -14,7 +14,7 @@ const SignUp = async(req, res) => {
 
         req.body.password = await HashPassword(req.body.password)
 
-        const newUser = await User.create(req.body);
+        const newUser = await UserModel.create(req.body);
 
         const token = createJWT(newUser);
 
@@ -23,7 +23,7 @@ const SignUp = async(req, res) => {
 
 const LogIn = async(req, res) => {
 
-    const userFound = await User.findOne({email : req.body.email});
+    const userFound = await UserModel.findOne({email : req.body.email});
 
     if(userFound == null){
 
