@@ -6,6 +6,6 @@ const { protect } = require("../functions/auth/authFunctions");
 const router = express.Router();
 
 
-router.patch("/avatar/update/:userId", upload.single("file"), userController.UpdateUserAvatar);
+router.patch("/avatar/update/:id", upload.single("file"), userController.UpdateUserAvatar);
 
 module.exports = router;

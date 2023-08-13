@@ -46,12 +46,10 @@ const LogIn = async(req, res) => {
 }
 
 const UpdateUserAvatar = asyncWrapper( async (req, res) => {
-  const userId = req.params.userId;
-  console.log(userId);
+  const userId = req.params.id;
   
   const filePath = req.file.path;
   const fileName = req.file.originalname;
-  //const { base64Image } = req.body
 
   const user = await userModel.findByIdAndUpdate(userId,{ profileAvatar : filePath});
 

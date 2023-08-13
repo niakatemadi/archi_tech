@@ -7,10 +7,12 @@ const router = express.Router();
 
 //router.route("/download/:id").get(downloadFile);
 //router.route("/").get(getFiles).post(upload.single("file"), addFile);
-router.get("/:id", fileController.getFiles);
+router.get("/:id", fileController.getOneFile);
 
 router.get("/download/:id", fileController.downloadFile);
 
 router.post("/", upload.single("file"), fileController.addFile);
+
+router.delete("/", fileController.deleteFile);
 
 module.exports = router;
