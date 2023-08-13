@@ -14,12 +14,32 @@ const getOneFile = async (req, res) => {
     }
 }
 
+const getFiles = async (req, res) => {
+    try {
+        const filesFound = await fileModel.find({userId: req.body.userId})
+        res.status(200).json({ filesFound });
+        
+    }catch(error){
+        console.log(error);
+    }
+}
+const getFolderFiles = async (req, res) => {
+    try {
+        const filesFound = await fileModel.find({folderId: req.params.folderId})
+        res.status(200).json({ filesFound });
+        
+    }catch(error){
+        console.log(error);
+    }
+}
+
 const addFile = asyncWrapper( async (req, res) => {
     try {
         const { fileLabel, userId } = req.body;
         const filePath = req.file.path;
         const fileName = req.file.originalname;
         const fileSizeMb = req.file.size;
+        const folderId = req.body.folderId;
 
         const userFound = await userModel.findById(userId);
         const userFoundTotalStorageUsed = userFound.totalSorageUsed;
@@ -27,7 +47,7 @@ const addFile = asyncWrapper( async (req, res) => {
     
         await userModel.findByIdAndUpdate(userId, {totalSorageUsed : newTotalStorageUsed});
 
-        const file = await ifleModel.create({fileName, filePath, folderId : "456789", userId, fileLabel, fileSizeMb});
+        const file = await fileModel.create({fileName, filePath, folderId, userId, fileLabel, fileSizeMb});
         res.status(201).json({ file })
     }catch(error){
         console.log(error);
@@ -58,6 +78,7 @@ const deleteFile = asyncWrapper( async (req, res) => {
 const downloadFile = asyncWrapper(async (req,res) => {
  
     const fileFound = await fileModel.findById(req.params.id);
+
     if(!fileFound){
         return next(new Error("No file found"))
     }
@@ -68,4 +89,4 @@ const downloadFile = asyncWrapper(async (req,res) => {
     res.download(fileLocalPath);
 })
 
-module.exports = { getOneFile, addFile, downloadFile, deleteFile };
+module.exports = { getOneFile, addFile, downloadFile, deleteFile, getFiles, getFolderFiles };

@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({limit: '100kb', extended: true}))
 
 // Routes
 app.use("/api/v1/files", filesRoutes);
-app.use("/api/v1/folders", filesRoutes);
+app.use("/api/v1/folders", foldersRoutes);
 app.use("/api/v1/invoices", filesRoutes);
 app.use("/api/v1/users", usersRoutes);
 

@@ -2,6 +2,8 @@ const UserModel = require("../../models/userModel/userModel");
 const { HashPassword, ComparePassword, ConvertToBase64, asyncWrapper } = require("../../functions/functions");
 const { createJWT } = require("../../functions/auth/authFunctions");
 const userModel = require("../../models/userModel/userModel");
+const folderModel = require("../../models/folderModel/folderModel");
+const fileModel = require("../../models/fileModel/fileModel");
 
 const SignUp = async(req, res) => {
 
@@ -56,4 +58,33 @@ const UpdateUserAvatar = asyncWrapper( async (req, res) => {
   res.status(200).json(user);
 });
 
-module.exports = {SignUp, LogIn, UpdateUserAvatar};
+
+const GetAllUsers = asyncWrapper( async (req, res) => {
+
+  const AllUsers = await userModel.find()
+
+  res.status(200).json(AllUsers);
+});
+
+const deleteUser = asyncWrapper( async (req, res) => {
+
+  const userId = req.params.id;
+
+  const foldersFound = await folderModel.find({userId});
+
+  foldersFound.map(async(folder) => {
+    await folderModel.findByIdAndDelete(folder._id);
+  })
+
+  const filesFound = await fileModel.find({userId});
+
+  filesFound.map(async(file) => {
+    await fileModel.findByIdAndDelete(file._id);
+  })
+
+  const userDeleted = await userModel.findByIdAndDelete(userId)
+
+  res.status(200).json({userDeleted, filesDeleted : filesFound, foldersDeleted : foldersFound });
+});
+
+module.exports = {SignUp, LogIn, UpdateUserAvatar, GetAllUsers, deleteUser};

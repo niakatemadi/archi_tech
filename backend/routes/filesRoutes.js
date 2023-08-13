@@ -7,7 +7,10 @@ const router = express.Router();
 
 //router.route("/download/:id").get(downloadFile);
 //router.route("/").get(getFiles).post(upload.single("file"), addFile);
+router.get("/", fileController.getFiles);
 router.get("/:id", fileController.getOneFile);
+router.get("/folder-files/:folderId", fileController.getFolderFiles);
+
 
 router.get("/download/:id", fileController.downloadFile);
 
