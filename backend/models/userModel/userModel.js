@@ -38,10 +38,12 @@ var userSchema = new mongoose.Schema({
         type: Number
     },
     numberOfFolders: {
-        type: Number
+        type: Number,
+        default : 0
     },
     numberOfFiles: {
-        type: Number
+        type: Number,
+        default: 0
     },
     userUniqueNumber: {
         type: String
