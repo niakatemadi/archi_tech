@@ -8,7 +8,6 @@ const fileModel = require("../../models/fileModel/fileModel");
 const SignUp = async(req, res) => {
 
   try{
-
     
             const userFound = await UserModel.findOne({email : req.body.email});
         

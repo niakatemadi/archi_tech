@@ -8,6 +8,7 @@ const filesRoutes = require("../backend/routes/filesRoutes.js");
 const invoicesRoutes = require("../backend/routes/invoicesRoutes.js");
 const foldersRoutes = require("../backend/routes/foldersRoutes.js");
 const usersRoutes = require("../backend/routes/usersRoutes.js");
+const cors = require("cors");
 
 ConnectDb();
 
@@ -15,6 +16,7 @@ ConnectDb();
 app.use(express.json());
 app.use(bodyParser.json({limit: '250kb', extended: true}))
 app.use(bodyParser.urlencoded({limit: '250kb', extended: true}))
+app.use(cors())
 
 
 
