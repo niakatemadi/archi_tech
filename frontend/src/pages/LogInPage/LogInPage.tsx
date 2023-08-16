@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react'
 import TextField from '../../components/TextField/TextField';
 import "./LogInPage.scss";
 import { UserContext } from '../../utils/contexts/userContext';
+import { Outlet, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type LogInPageProps = {
     setIsLoggedInPage : any,
@@ -12,6 +14,8 @@ const LogInPage = ({setIsLoggedInPage, isLoggedInPage}: LogInPageProps) => {
 
   const [logInForm, setLogInForm] = useState({});
   const {user, setUser} = useContext(UserContext);
+  let navigate = useNavigate();
+
 
   function SwitchLoginAndSignupPage(){
       setIsLoggedInPage(!isLoggedInPage);
@@ -32,9 +36,11 @@ const LogInPage = ({setIsLoggedInPage, isLoggedInPage}: LogInPageProps) => {
           body: JSON.stringify(logInForm)
       }
 
+      
+
       fetch("http://localhost:3350/api/v1/logIn", options)
       .then(response => response.json())
-      .then( data => {console.log("my datas login :",data); setUser({ name: data.user.name, firstName: data.user.firstName, email: data.user.email}); localStorage.setItem("currentUser", JSON.stringify(data.user)); localStorage.setItem("token", data.token); })
+      .then( data => {console.log("my datas login :",data); setUser({ name: data.user.name, firstName: data.user.firstName, email: data.user.email}); localStorage.setItem("currentUser", JSON.stringify(data.user)); localStorage.setItem("token", data.token); data.token!=null && navigate("/userDashboard")})
       .catch(err => console.log(err));
   }
   return (

@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const AuthenticationPage = () => {
 
-  const [isLoggedInPage, setIsLoggedInPage] = useState<boolean>(false)
+  const [isLoggedInPage, setIsLoggedInPage] = useState<boolean>(true)
   return (
     <section className='AuthenticationSection'>
 

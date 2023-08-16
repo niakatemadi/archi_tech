@@ -1,4 +1,5 @@
 import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export type User = {
     name: string,
@@ -34,7 +35,9 @@ export default function UserProvider( {children} : userProviderProps){
         firstName:""
     });
 
+   
     useEffect(() => {
+     
 
         const currentUser = JSON.parse(localStorage.getItem("currentUser") ?? "{}");
 
