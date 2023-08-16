@@ -4,14 +4,28 @@ import "./SignUpPage.scss";
 import { useState, useContext } from 'react';
 import axios from "axios";
 import { UserContext } from '../../utils/contexts/userContext';
+import emailjs from "emailjs-com";
+
 
 type SignUpPageProps = {
     setIsLoggedInPage : any,
     isLoggedInPage : boolean 
 }
 
+const sendConfirmationSignUpEmail = (name: string, email: string) => {
+
+  const templateParams = {name, email}
+  
+  emailjs.send('service_1gvlff1', 'template_qfb65xi',templateParams, 'Dx3PbDbEX2fS5XUhp')
+  .then((result) => {
+      console.log(result.text);
+  }, (error) => {
+      console.log(error.text);
+  });
+}
+
 const SignUpPage = ({setIsLoggedInPage, isLoggedInPage}: SignUpPageProps) => {
-    const [signUpForm, setSignUpForm] = useState({});
+    const [signUpForm, setSignUpForm] = useState({ name :"", email:""});
     const { setUser } = useContext(UserContext);
 
     function SwitchLoginAndSignupPage(){
@@ -25,6 +39,8 @@ const SignUpPage = ({setIsLoggedInPage, isLoggedInPage}: SignUpPageProps) => {
 
     function SendSignUpForm(){
 
+        sendConfirmationSignUpEmail(signUpForm.name, signUpForm.email)
+      
         const options = {
             method: 'POST',
             headers: {
