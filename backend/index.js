@@ -29,7 +29,7 @@ app.use("/api/v1/users", usersRoutes);
 
 // Authentication routes
 app.post("/api/v1/signUp", UserController.SignUp);
-app.get("/api/v1/logIn", UserController.LogIn);
+app.post("/api/v1/logIn", UserController.LogIn);
 
 
 app.listen(port, () => {

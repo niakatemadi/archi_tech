@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import TextField from '../../components/TextField/TextField';
 import "./LogInPage.scss";
+import { UserContext } from '../../utils/contexts/userContext';
 
 type LogInPageProps = {
     setIsLoggedInPage : any,
@@ -9,9 +10,33 @@ type LogInPageProps = {
 
 const LogInPage = ({setIsLoggedInPage, isLoggedInPage}: LogInPageProps) => {
 
-    function SwitchLoginAndSignupPage(){
-        setIsLoggedInPage(!isLoggedInPage);
-    }
+  const [logInForm, setLogInForm] = useState({});
+  const {user, setUser} = useContext(UserContext);
+
+  function SwitchLoginAndSignupPage(){
+      setIsLoggedInPage(!isLoggedInPage);
+  }
+
+  function HandleLogInForm(e:any){
+      e.preventDefault();
+      setLogInForm({...logInForm, [e.target.name]: e.target.value})
+  }
+
+  function SendLogInForm(){
+
+      const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(logInForm)
+      }
+
+      fetch("http://localhost:3350/api/v1/logIn", options)
+      .then(response => response.json())
+      .then( data => {console.log("my datas login :",data); setUser({ name: data.user.name, firstName: data.user.firstName, email: data.user.email}); localStorage.setItem("currentUser", JSON.stringify(data.user)); localStorage.setItem("token", data.token); })
+      .catch(err => console.log(err));
+  }
   return (
     <div className='LogInPage'>
           <p className='LogInPage__title'> Se connecter</p>
@@ -27,11 +52,11 @@ const LogInPage = ({setIsLoggedInPage, isLoggedInPage}: LogInPageProps) => {
           </div>
           <form className='LogInPage__form' action="">
             <div>
-                <TextField placeholder=' Email'/>
-                <TextField placeholder=' Mot de passe'/>
+                <TextField name='email' onChange={HandleLogInForm} placeholder=' Email'/>
+                <TextField name='password' type='password' onChange={HandleLogInForm} placeholder=' Mot de passe'/>
                 <p className='LogInPage__forgotPassword'> Mot de passe oublié ?</p>
             </div>
-            <div className='LogInPage__sendFormButton'><p>Se connecter</p></div>
+            <div className='LogInPage__sendFormButton' onClick={SendLogInForm}><p>Se connecter</p></div>
             <p className='LogInPage__alreadySignedUp'>Pas encore de compte ? <a onClick={SwitchLoginAndSignupPage} className='LogInPage__link' href='#'>Inscrivez-vous !</a></p>
           </form>
     </div>

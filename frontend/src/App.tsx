@@ -1,18 +1,21 @@
 import './App.css';
 import AuthenticationPage from './pages/AuthenticationPage/AuthenticationPage';
 import { useContext, createContext, useState } from 'react';
+import React from 'react';
+import UserProvider from './utils/contexts/userContext';
+import UserDashboard from './pages/UserDashboard/UserDashboard';
 
 function App() {
 
   const [currentUser, setCurrentUser]= useState({});
-  const AuthContext = createContext({});
-  
+  const greeting = "Hello"
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
       <div className="App">
-        <AuthenticationPage />
+        <UserProvider>
+          <AuthenticationPage />
+          <UserDashboard />
+        </UserProvider>
       </div>
-    </AuthContext.Provider>
   );
 }
 

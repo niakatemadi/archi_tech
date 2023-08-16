@@ -3,6 +3,7 @@ import TextField from '../../components/TextField/TextField';
 import "./SignUpPage.scss";
 import { useState, useContext } from 'react';
 import axios from "axios";
+import { UserContext } from '../../utils/contexts/userContext';
 
 type SignUpPageProps = {
     setIsLoggedInPage : any,
@@ -11,6 +12,7 @@ type SignUpPageProps = {
 
 const SignUpPage = ({setIsLoggedInPage, isLoggedInPage}: SignUpPageProps) => {
     const [signUpForm, setSignUpForm] = useState({});
+    const { setUser } = useContext(UserContext);
 
     function SwitchLoginAndSignupPage(){
         setIsLoggedInPage(!isLoggedInPage);
@@ -18,14 +20,10 @@ const SignUpPage = ({setIsLoggedInPage, isLoggedInPage}: SignUpPageProps) => {
 
     function HandleSignUpForm(e:any){
         e.preventDefault();
-        console.log("signUpForm");
-        console.log({...signUpForm, [e.target.name]: e.target.value});
-        console.log("signUpForm");
         setSignUpForm({...signUpForm, [e.target.name]: e.target.value})
     }
 
     function SendSignUpForm(){
-        console.log(signUpForm);
 
         const options = {
             method: 'POST',
@@ -37,14 +35,13 @@ const SignUpPage = ({setIsLoggedInPage, isLoggedInPage}: SignUpPageProps) => {
 
         fetch("http://localhost:3350/api/v1/signUp", options)
         .then(response => response.json())
-        .then( data => {localStorage.setItem("token", data.token); console.log(data)})
+        .then( data => {console.log("my datas :",data); setUser({ name: data.user.name, firstName: data.user.firstName, email: data.user.email});})
         .catch(err => console.log(err));
     }
 
   return (
     <div className='SignUpPage'>
           <p className='SignUpPage__title'> Créer un compte</p>
-          <p>{}</p>
           <div className='SignUpPage__connectionMethods'>
             <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="35px" height="35px"><path fill="#ffff" d="M 26 2 C 13.308594 2 3 12.308594 3 25 C 3 37.691406 13.308594 48 26 48 C 35.917969 48 41.972656 43.4375 45.125 37.78125 C 48.277344 32.125 48.675781 25.480469 47.71875 20.9375 L 47.53125 20.15625 L 46.75 20.15625 L 26 20.125 L 25 20.125 L 25 30.53125 L 36.4375 30.53125 C 34.710938 34.53125 31.195313 37.28125 26 37.28125 C 19.210938 37.28125 13.71875 31.789063 13.71875 25 C 13.71875 18.210938 19.210938 12.71875 26 12.71875 C 29.050781 12.71875 31.820313 13.847656 33.96875 15.6875 L 34.6875 16.28125 L 41.53125 9.4375 L 42.25 8.6875 L 41.5 8 C 37.414063 4.277344 31.960938 2 26 2 Z M 26 4 C 31.074219 4 35.652344 5.855469 39.28125 8.84375 L 34.46875 13.65625 C 32.089844 11.878906 29.199219 10.71875 26 10.71875 C 18.128906 10.71875 11.71875 17.128906 11.71875 25 C 11.71875 32.871094 18.128906 39.28125 26 39.28125 C 32.550781 39.28125 37.261719 35.265625 38.9375 29.8125 L 39.34375 28.53125 L 27 28.53125 L 27 22.125 L 45.84375 22.15625 C 46.507813 26.191406 46.066406 31.984375 43.375 36.8125 C 40.515625 41.9375 35.320313 46 26 46 C 14.386719 46 5 36.609375 5 25 C 5 13.390625 14.386719 4 26 4 Z"/></svg>
             <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="35px" height="35px"><path fill="#ffff" d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 26.580078 10 C 23.92822 10 21.917076 10.867217 20.677734 12.400391 C 19.438393 13.933564 19 15.981046 19 18.226562 L 19 20 L 17 20 A 1.0001 1.0001 0 0 0 16 21 L 16 26 A 1.0001 1.0001 0 0 0 17 27 L 19 27 L 19 39 A 1.0001 1.0001 0 0 0 20 40 L 26 40 A 1.0001 1.0001 0 0 0 27 39 L 27 27 L 31 27 A 1.0001 1.0001 0 0 0 31.980469 26.195312 L 32.980469 21.195312 A 1.0001 1.0001 0 0 0 32 20 L 27 20 L 27 17.806641 C 27 17.321617 27.03137 17.325614 27.171875 17.234375 C 27.312385 17.143136 27.820197 17 28.710938 17 L 32 17 A 1.0001 1.0001 0 0 0 33 16 L 33 12 A 1.0001 1.0001 0 0 0 32.335938 11.058594 C 32.335938 11.058594 29.456337 10 26.580078 10 z M 26.580078 12 C 28.472499 12 30.227501 12.510447 31 12.751953 L 31 15 L 28.710938 15 C 27.663677 15 26.813974 15.08458 26.083984 15.558594 C 25.353995 16.032605 25 16.940664 25 17.806641 L 25 21 A 1.0001 1.0001 0 0 0 26 22 L 30.779297 22 L 30.179688 25 L 26 25 A 1.0001 1.0001 0 0 0 25 26 L 25 38 L 21 38 L 21 26 A 1.0001 1.0001 0 0 0 20 25 L 18 25 L 18 22 L 20 22 A 1.0001 1.0001 0 0 0 21 21 L 21 18.226562 C 21 16.24708 21.405014 14.681779 22.232422 13.658203 C 23.05983 12.634627 24.336936 12 26.580078 12 z"/></svg>
