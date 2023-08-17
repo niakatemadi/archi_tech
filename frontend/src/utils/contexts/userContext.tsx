@@ -1,6 +1,8 @@
 import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+let navigate = useNavigate();
+
 export type User = {
     name: string,
     email: string,
@@ -35,14 +37,13 @@ export default function UserProvider( {children} : userProviderProps){
         firstName:""
     });
 
-   
     useEffect(() => {
      
-
         const currentUser = JSON.parse(localStorage.getItem("currentUser") ?? "{}");
 
         if(currentUser != "{}"){
             setUser({name: currentUser.name, firstName: currentUser.firstName, email: currentUser.email});
+            navigate("/userDashboard");
         }
     },[])
 

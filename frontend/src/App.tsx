@@ -5,6 +5,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserProvider from './utils/contexts/userContext';
 import UserDashboard from './pages/UserDashboard/UserDashboard';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
             <Routes>
                 <Route path="/" element={ <AuthenticationPage />} />
                 <Route path="/userDashboard" element={<UserDashboard />} />          
+                <Route path="/adminDashboard" element={<AdminDashboard />} />          
             </Routes>
           </BrowserRouter>
         </UserProvider>

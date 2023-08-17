@@ -14,6 +14,7 @@ const LogInPage = ({setIsLoggedInPage, isLoggedInPage}: LogInPageProps) => {
 
   const [logInForm, setLogInForm] = useState({});
   const {user, setUser} = useContext(UserContext);
+  
   let navigate = useNavigate();
 
 
@@ -36,13 +37,12 @@ const LogInPage = ({setIsLoggedInPage, isLoggedInPage}: LogInPageProps) => {
           body: JSON.stringify(logInForm)
       }
 
-      
-
       fetch("http://localhost:3350/api/v1/logIn", options)
       .then(response => response.json())
       .then( data => {console.log("my datas login :",data); setUser({ name: data.user.name, firstName: data.user.firstName, email: data.user.email}); localStorage.setItem("currentUser", JSON.stringify(data.user)); localStorage.setItem("token", data.token); data.token!=null && navigate("/userDashboard")})
       .catch(err => console.log(err));
   }
+
   return (
     <div className='LogInPage'>
           <p className='LogInPage__title'> Se connecter</p>
