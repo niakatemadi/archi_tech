@@ -5,22 +5,12 @@ import { UserContext } from '../../utils/contexts/userContext';
 import { Outlet, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-type LogInPageProps = {
-    setIsLoggedInPage : any,
-    isLoggedInPage : boolean 
-}
-
-const LogInPage = ({setIsLoggedInPage, isLoggedInPage}: LogInPageProps) => {
+const LogInPage = () => {
 
   const [logInForm, setLogInForm] = useState({});
   const {user, setUser} = useContext(UserContext);
-  
+
   let navigate = useNavigate();
-
-
-  function SwitchLoginAndSignupPage(){
-      setIsLoggedInPage(!isLoggedInPage);
-  }
 
   function HandleLogInForm(e:any){
       e.preventDefault();
@@ -63,7 +53,7 @@ const LogInPage = ({setIsLoggedInPage, isLoggedInPage}: LogInPageProps) => {
                 <p className='LogInPage__forgotPassword'> Mot de passe oublié ?</p>
             </div>
             <div className='LogInPage__sendFormButton' onClick={SendLogInForm}><p>Se connecter</p></div>
-            <p className='LogInPage__alreadySignedUp'>Pas encore de compte ? <a onClick={SwitchLoginAndSignupPage} className='LogInPage__link' href='#'>Inscrivez-vous !</a></p>
+            <p className='LogInPage__alreadySignedUp'>Pas encore de compte ? <a className='LogInPage__link' href='#'> <Link to="/signUp">Inscrivez-vous !</Link></a></p>
           </form>
     </div>
   )

@@ -1,8 +1,6 @@
 import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-let navigate = useNavigate();
-
 export type User = {
     name: string,
     email: string,
@@ -29,13 +27,16 @@ type userProviderProps = {
     children : ReactNode
 }
 
-export default function UserProvider( {children} : userProviderProps){
 
+export default function UserProvider( {children} : userProviderProps){
+    
     const [user, setUser] = useState<User>({
         name: "",
         email:"",
         firstName:""
     });
+
+ //   let navigate = useNavigate();
 
     useEffect(() => {
      
@@ -43,7 +44,7 @@ export default function UserProvider( {children} : userProviderProps){
 
         if(currentUser != "{}"){
             setUser({name: currentUser.name, firstName: currentUser.firstName, email: currentUser.email});
-            navigate("/userDashboard");
+           // navigate("/userDashboard");
         }
     },[])
 

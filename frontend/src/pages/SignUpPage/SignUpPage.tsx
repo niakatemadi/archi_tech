@@ -5,21 +5,12 @@ import { useState, useContext } from 'react';
 import axios from "axios";
 import { UserContext } from '../../utils/contexts/userContext';
 import sendConfirmationSignUpEmail from '../../utils/functions/sendConfirmationSignUpEmail';
+import { Link } from 'react-router-dom';
 
-
-type SignUpPageProps = {
-    setIsLoggedInPage : any,
-    isLoggedInPage : boolean 
-}
-
-const SignUpPage = ({setIsLoggedInPage, isLoggedInPage}: SignUpPageProps) => {
+const SignUpPage = () => {
 
     const [signUpForm, setSignUpForm] = useState({ name :"", email:""});
     const { setUser } = useContext(UserContext);
-
-    function SwitchLoginAndSignupPage(){
-        setIsLoggedInPage(!isLoggedInPage);
-    }
 
     function HandleSignUpForm(e:any){
         e.preventDefault();
@@ -66,7 +57,7 @@ const SignUpPage = ({setIsLoggedInPage, isLoggedInPage}: SignUpPageProps) => {
             </div>
             <div className='SignUpPage__termsConditionsBloc'> <input className='SignUpPage__checkbox' type="checkbox" name="termsAndCoditions" id="termsAndCoditions" /> <label htmlFor='termsAndCoditions' className='SignUpPage__termsConditions'>J'accepte les termes et la politique de confidentialité.</label></div>
             <div className='SignUpPage__sendFormButton' onClick={SendSignUpForm} ><p>S'inscrire</p></div>
-            <p className='SignUpPage__alreadySignedUp'>Déjà un compte ? <a onClick={SwitchLoginAndSignupPage} className='SignUpPage__link' href='#'>Connectez-vous !</a></p>
+            <p className='SignUpPage__alreadySignedUp'>Déjà un compte ? <a className='SignUpPage__link' href='#'> <Link to="/">Connectez-vous !</Link></a></p>
           </form>
     </div>
   )
