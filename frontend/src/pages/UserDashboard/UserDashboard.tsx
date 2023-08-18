@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "./UserDashboard.scss";
 import BannerComponent from '../../components/BannerComponent/BannerComponent';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomButton from "../../components/CustomButton/CustomButton";
 
 const UserDashboard = () => {
 
@@ -34,6 +34,7 @@ function HandleNavBarOpening(){
         </div>
 
       </div>
+
     </section>
   )
 }

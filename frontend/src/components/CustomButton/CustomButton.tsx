@@ -1,3 +1,4 @@
+import React from "react";
 import "./CustomButton.scss";
 
 const CustomButton = ({text, onClick, variant,  } : ButtonProps) => {
