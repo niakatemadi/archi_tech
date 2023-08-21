@@ -56,7 +56,7 @@ const addFile = asyncWrapper( async (req, res) => {
         const userFoundTotalFileNumber = userFound.numberOfFiles;
         const newTotalFileNumber = userFoundTotalFileNumber + 1;
     
-       const userUpdated = await userModel.findByIdAndUpdate(userId, {totalStorageUsed : newTotalStorageUsed, numberOfFiles : newTotalFileNumber}, {new: true});
+        const userUpdated = await userModel.findByIdAndUpdate(userId, {totalStorageUsed : newTotalStorageUsed, numberOfFiles : newTotalFileNumber}, {new: true});
 
         const file = await fileModel.create({fileName, filePath, folderId, userId, fileLabel, fileSizeMb});
         res.status(201).json({ file, userUpdated })
@@ -68,7 +68,7 @@ const addFile = asyncWrapper( async (req, res) => {
 const deleteFile = asyncWrapper( async (req, res) => {
     try{
 
-        const { userId, fileId, fileSizeMb } = req.body;
+        const { userId, fileId, fileSizeMb, folderId } = req.body;
 
         const userFound = await userModel.findById(userId);
 
@@ -77,12 +77,14 @@ const deleteFile = asyncWrapper( async (req, res) => {
         const userFoundTotalFileNumber = userFound.numberOfFiles;
         const newTotalFileNumber = userFoundTotalFileNumber - 1;
 
-        await userModel.findByIdAndUpdate(userId, {totalStorageUsed: newTotalStorageUsed, numberOfFiles : newTotalFileNumber});
+        const userUpdated = await userModel.findByIdAndUpdate(userId, {totalStorageUsed: newTotalStorageUsed, numberOfFiles : newTotalFileNumber},{new: true});
 
         const fileDeleted = await fileModel.findOneAndDelete({_id : fileId});
         DeleteLocalFile(fileDeleted.filePath);
 
-        res.status(200).json(fileDeleted);
+        const newFilesList = await fileModel.find({folderId});
+
+        res.status(200).json({userUpdated, newFilesList});
 
 
     }catch(error){

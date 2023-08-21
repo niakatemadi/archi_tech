@@ -30,38 +30,32 @@ const deleteFolder = asyncWrapper( async (req, res) => {
   try {
 
       const userId = req.body.userId;
-      console.log("userid backend");
-      console.log(userId,userId)
-      
+      const folderId = req.params.id;
     
       const userFound = await userModel.findById(userId);
+      const filesFound = await fileModel.find({folderId : folderId});
 
-      console.log("userFound",userFound)
+      console.log("userFound", userFound);
+      console.log("userFound storage",userFound.totalStorageUsed);
     
       const userFoundTotalFolderNumber = userFound.numberOfFolders;
       console.log("userFoundTotalFolderNumber", userFoundTotalFolderNumber)
+      const userFoundTotalFileNumber = userFound.numberOfFiles;
+      const userFoundTotalStorageUsed = userFound.totalStorageUsed;
+      const filesFoundLength = filesFound.length;
+      const filesFoundTotalStorage = filesFound.reduce((acc, element) => acc + element.fileSizeMb, 0);
+
+      console.log("file found reduce storage", filesFoundTotalStorage);
+
       const newTotalFolderNumber = userFoundTotalFolderNumber - 1;
+      const newTotalFileNumber = userFoundTotalFileNumber - filesFoundLength;
+      const newTotalFileStorage = userFoundTotalStorageUsed - filesFoundTotalStorage;
+
+     // console.log("newtotalstorage", newTotalFileStorage);
+      console.log("newtotalfilenumber", newTotalFileNumber);
+      console.log("newtotalfoldernumber", newTotalFolderNumber);
     
-     // await userModel.findByIdAndUpdate(userId, {numberOfFolders : newTotalFolderNumber});
-    
-      const folderId = req.params.id;
-    
-      const filesFound = await fileModel.find({folderId : folderId});
-
-      const numberOfFiles = filesFound.length;
-
-      console.log("numberoffiles",numberOfFiles);
-
-      const newNumberOfFiles = userFound.numberOfFiles - numberOfFiles;
-      console.log("filesFound",filesFound)
-
-      const totalFilesSize = filesFound.reduce((acc, element) => acc + element.fileSizeMb ,0);
-
-      console.log("totalfile size",totalFilesSize);
-
-      const newTotalFileSize = userFound.totalStorageUsed - totalFilesSize;
-
-     const userUpdated = await userModel.findByIdAndUpdate(userId, {numberOfFiles: newNumberOfFiles, numberOfFolders : newTotalFolderNumber, totalStorageUsed: newTotalFileSize});
+      await userModel.findByIdAndUpdate(userId, {numberOfFolders : newTotalFolderNumber, numberOfFiles: newTotalFileNumber, totalStorageUsed: newTotalFileStorage});
     
       filesFound.map(async(file) => {
     
@@ -69,9 +63,12 @@ const deleteFolder = asyncWrapper( async (req, res) => {
     
       })
     
-      const folderFound = await folderModel.findByIdAndDelete(folderId);
+      await folderModel.findByIdAndDelete(folderId);
+
+      const userUpdated = await userModel.findById(userId);
+      const newFolderList = await folderModel.find({userId});
     
-      res.status(200).json(userUpdated);
+      res.status(200).json({ newFolderList, userUpdated });
 
   }catch(error){
     console.log(error);
@@ -92,17 +89,4 @@ const getCurrentUserFolders = asyncWrapper( async (req, res) => {
   }
 });
 
-const getFolders = asyncWrapper( async (req, res) => {
-
-  try{
-    
-      const foldersFound = await folderModel.find();
-    
-      res.status(200).json(foldersFound);
-
-  }catch(error){
-    console.log(error);
-  }
-});
-
-module.exports = { addFolder, getCurrentUserFolders, deleteFolder, getFolders };
+module.exports = { addFolder, getCurrentUserFolders, deleteFolder };

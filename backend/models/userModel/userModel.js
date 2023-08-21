@@ -49,6 +49,10 @@ var userSchema = new mongoose.Schema({
     userUniqueNumber: {
         type: String
     },
+    totalStorageUsed: {
+        type: Number,
+        default : 0
+    },
     profileAvatar : {
         type: String
     }

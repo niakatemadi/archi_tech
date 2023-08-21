@@ -32,7 +32,7 @@ const MyFilesPage = () => {
               }
           }
   
-          const url = `http://localhost:3350/api/v1/files/folderFiles/${folderId}`
+          const url = `http://localhost:3350/api/v1/files/folder-files/${folderId}`
     
           fetch(url, options)
           .then(response => response.json())
@@ -74,6 +74,8 @@ const MyFilesPage = () => {
 
         const datas = await response.json();
 
+        console.log("datas response",datas);
+
         console.log("datas",[...files,datas.file])
 
         localStorage.setItem("currentUser", JSON.stringify(datas.userUpdated));
@@ -84,7 +86,7 @@ const MyFilesPage = () => {
 
       }
 
-      function DeleteFile(fileId: string, userId: string, fileSizeMb: number){
+      function DeleteFile(fileId: string, userId: string, fileSizeMb: number, folderId: string){
 
         console.log("inside delete fucntion", fileId)
         const token = localStorage.getItem("token");
@@ -98,7 +100,8 @@ const MyFilesPage = () => {
             body: JSON.stringify({
                 userId,
                 fileId,
-                fileSizeMb
+                fileSizeMb,
+                folderId
             })
         }
 
@@ -106,7 +109,7 @@ const MyFilesPage = () => {
   
         fetch(url, options)
         .then(response => response.json())
-        .then( data => {console.log("my folders datas:",data)})
+        .then( data => {console.log("my folders datas:",data); setUser(data.userUpdated); setFiles(data.newFilesList);localStorage.setItem("currentUser", JSON.stringify(data.userUpdated))})
         .catch(err => console.log(err));
 
     }
@@ -114,7 +117,7 @@ const MyFilesPage = () => {
       return (
           <div className='MyFilesSection'>
            {
-             files.map(({fileLabel, _id, filePath, userId, fileSizeMb}, index) => <FileComponent fileLabel={fileLabel} filePath={filePath} OnClick={() => {}}  key={index} title={'Supprimer'} description={'Voulez vous vraiment supprimer ce dossier ?'} buttonText={fileLabel} agreeOnClick={() => DeleteFile(_id,userId,fileSizeMb)} disagreeOnClick={() => {}} />)
+             files.map(({fileLabel, _id, filePath, userId, fileSizeMb, folderId}, index) => <FileComponent fileLabel={fileLabel} filePath={filePath} OnClick={() => {}}  key={index} title={'Supprimer'} description={'Voulez vous vraiment supprimer ce dossier ?'} buttonText={fileLabel} agreeOnClick={() => DeleteFile(_id,userId,fileSizeMb, folderId)} disagreeOnClick={() => {}} />)
            }
            <div >
 
