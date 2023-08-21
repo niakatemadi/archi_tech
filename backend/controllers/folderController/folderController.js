@@ -16,9 +16,12 @@ const addFolder = asyncWrapper( async (req, res) => {
   
     await userModel.findByIdAndUpdate(userId, {numberOfFolders : newTotalFolderNumber});
   
-    const userCreated = await folderModel.create({userId, folderLabel});
+    await folderModel.create({userId, folderLabel});
+
+    const userUpdated = await userModel.findById(userId);
+    const newFolderList = await folderModel.find({userId});
   
-    res.status(201).json(userCreated);
+    res.status(201).json({ userUpdated, newFolderList });
 
   }catch(error){
     console.log(error);

@@ -53,9 +53,6 @@ const AlertDialog = ({buttonText,title, description, agreeOnClick, disagreeOnCli
                 <div onClick={DownloadFile}> <a href={filePath} download={"exemple dddl"} target="_blank" rel="noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><title>11.download</title><g id="_11.download" data-name="11.download"><path d="M12,24A12,12,0,1,1,24,12,12.013,12.013,0,0,1,12,24ZM12,2A10,10,0,1,0,22,12,10.011,10.011,0,0,0,12,2Z"/><polygon points="12 14.414 7.293 9.707 8.707 8.293 12 11.586 15.293 8.293 16.707 9.707 12 14.414"/><rect x="11" y="5" width="2" height="8"/><polygon points="17 19 7 19 7 16 9 16 9 17 15 17 15 16 17 16 17 19"/></g></svg></a> </div>
                 <div onClick={ShowAlert}><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="20px" height="20px"> <path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"/></svg></div>
             </div>
-            <div>
-                img
-            </div>
         <div className={`AlertDialog_background ${isDisplayed && "AlertDialog_background--displayed"}`} onClick={ShowAlert}  >
             <div className="AlertDialog_container" onClick={HandlePropagation} >
                 <h3 className="AlertDialog_title" >{title}</h3>

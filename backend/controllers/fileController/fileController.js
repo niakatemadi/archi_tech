@@ -37,6 +37,7 @@ const getFolderFiles = async (req, res) => {
 
 const addFile = asyncWrapper( async (req, res) => {
     try {
+        console.log("req.file",req.file);
         const { fileLabel, userId } = req.body;
         const filePath = req.file.path;
         const fileName = req.file.originalname;

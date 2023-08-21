@@ -3,6 +3,7 @@ import "./MyFilesPage.scss";
 import { useLocation } from "react-router-dom";
 import FileComponent from '../../components/FileComponent/FileComponent';
 import { UserContext } from '../../utils/contexts/userContext';
+import AddFileButtonComponent from '../../components/AddFileButtonComponent/AddFileButtonComponent';
 
 const MyFilesPage = () => {
 
@@ -10,7 +11,7 @@ const MyFilesPage = () => {
 
     const [files, setFiles]=useState<Array<any>>([]);
 
-    const [file, setFile]= useState("");
+    const [fileFormData, setFileFormData] = useState<any>({})
 
     const location = useLocation();
     const folderId = location.state.folderInfo._id;
@@ -45,7 +46,7 @@ const MyFilesPage = () => {
 
       function handleFile(event:any){
         console.log("dvzvdzzd",event.target.files[0])
-        setFile(event.target.files[0]);
+        setFileFormData({...fileFormData, "file" : event.target.files[0]});
       }
 
       
@@ -56,9 +57,11 @@ const MyFilesPage = () => {
 
         const formData = new FormData();
 
-        formData.set("file",file);
-        formData.set("fileLabel","jus de peche");
-        formData.set("userId","64dbf2bffc01d6e6850e77ae");
+        console.log("file form data", fileFormData);
+
+        formData.set("file",fileFormData.file);
+        formData.set("fileLabel",fileFormData.fileLabel);
+        formData.set("userId",user._id);
         formData.set("folderId",folderId);
 
         const options = {
@@ -113,17 +116,23 @@ const MyFilesPage = () => {
         .catch(err => console.log(err));
 
     }
+
+    function handleInput(e:any){
+      setFileFormData({...fileFormData, [e.target.name] : e.target.value})
+    }
       
       return (
           <div className='MyFilesSection'>
+            <div className='MyFilesSection__header'>
+              <p className='MyFilesSection__header--title'> Mes fichiers</p> 
+              <AddFileButtonComponent title={'Veuillez écrire le nom du fichier'} buttonText={'Créer un fichier'} agreeOnClick={handleUpload} onChangeFileField={handleFile} onChangeLabelField={handleInput} />
+            </div>
+           <div className='MyFilesSection__fileList'>
            {
              files.map(({fileLabel, _id, filePath, userId, fileSizeMb, folderId}, index) => <FileComponent fileLabel={fileLabel} filePath={filePath} OnClick={() => {}}  key={index} title={'Supprimer'} description={'Voulez vous vraiment supprimer ce dossier ?'} buttonText={fileLabel} agreeOnClick={() => DeleteFile(_id,userId,fileSizeMb, folderId)} disagreeOnClick={() => {}} />)
            }
-           <div >
-
-           <input type="file" name='file' onChange={handleFile} />
-           <div onClick={handleUpload}>Upload</div>
            </div>
+           
         </div>
   )
 }
