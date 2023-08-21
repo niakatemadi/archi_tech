@@ -31,7 +31,8 @@ var userSchema = new mongoose.Schema({
         required: true
     },
     totalStoragePurchased: {
-        type: Number
+        type: Number,
+        default: 0
     },
     numberOfFolders: {
         type: Number,
@@ -41,12 +42,12 @@ var userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    totalStorageUsed: {
+        type: Number,
+        default: 0
+    },
     userUniqueNumber: {
         type: String
-    },
-    totalSorageUsed: {
-        type: Number,
-        default : 0
     },
     profileAvatar : {
         type: String
