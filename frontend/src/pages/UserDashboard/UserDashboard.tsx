@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import "./UserDashboard.scss";
 import BannerComponent from '../../components/BannerComponent/BannerComponent';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import AlertDialog from '../../components/FolderComponent/FolderComponent';
-import MyFoldersPage from '../MyFoldersPage/MyFoldersPage';
 import { Link, Outlet } from 'react-router-dom';
 
 const UserDashboard = () => {

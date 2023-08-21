@@ -2,10 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import "./MyFoldersPage.scss";
 import { Link, useNavigate } from 'react-router-dom';
 import FolderComponent from '../../components/FolderComponent/FolderComponent';
+import { UserContext } from '../../utils/contexts/userContext';
 
 const MyFoldersPage = () => {
     const [folders, setFolders] = useState([{folderLabel:"", userId:"", _id:""}]);
     const currentUser = JSON.parse(localStorage.getItem("currentUser")!);
+
+    const {user, setUser} = useContext(UserContext);
 
     useEffect(() => {
 
@@ -21,6 +24,8 @@ const MyFoldersPage = () => {
         }
 
       const url = `http://localhost:3350/api/v1/folders/${currentUser._id}`;
+
+      console.log("url",url)
 
         fetch(url, options)
         .then(response => response.json())
@@ -47,7 +52,7 @@ const MyFoldersPage = () => {
   // J'ai ajouter le localstorage en derniere minute
         fetch(url, options)
         .then(response => response.json())
-        .then( data => {console.log("my folders datas:",data); localStorage.setItem("currentUser",data); })
+        .then( data => {console.log("my folders datas:",data); setUser(data.userUpdated); setFolders(data.newFolderList); localStorage.setItem("currentUser", JSON.stringify(data.userUpdated));})
         .catch(err => console.log(err));
 
     }
@@ -67,8 +72,7 @@ const MyFoldersPage = () => {
 
       </div>
         {
-            folders.map( (element, index) => <FolderComponent OnClick={() => RedirectToFilesPage(element)} key={index} title={'Supprimer'} description={'Voulez vous vraiment supprimer ce dossier ?'} buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} disagreeOnClick={() => {}} />) 
-        
+           folders.map( (element, index) => <FolderComponent OnClick={() => RedirectToFilesPage(element)} key={index} title={'Supprimer'} description={'Voulez vous vraiment supprimer ce dossier ?'} buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} disagreeOnClick={() => {}} />)    
         }
       
     </div>

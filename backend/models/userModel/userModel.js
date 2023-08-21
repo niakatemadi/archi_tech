@@ -44,7 +44,7 @@ var userSchema = new mongoose.Schema({
     userUniqueNumber: {
         type: String
     },
-    totalSorageUsed: {
+    totalStorageUsed: {
         type: Number,
         default : 0
     },
