@@ -96,7 +96,7 @@ const MyFoldersPage = () => {
     <div className='MyFoldersSection'>
       <div className='MyFoldersSection__header'>
           <p className='MyFoldersSection__header--title'> Mes dossiers</p> 
-          <AddFolderButtonComponent id="folderLabel" title={'Veuillez écrire le nom du dossier'} buttonText={'Créer un dossier'} agreeOnClick={CreateNewFolder} onChangeInput={HandleInputData} />
+          <AddFolderButtonComponent id="folderLabel" title={'Veuillez écrire le nom du dossier'} buttonText={'Créer un dossier'} agreeOnClick={CreateNewFolder} onChangeLabelField={HandleInputData} />
       </div >
           <div className='MyFoldersSection__folderList'>
             {

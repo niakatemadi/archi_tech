@@ -7,11 +7,11 @@ type AddFolderButtonComponentProps = {
     title: string,
     buttonText:string,
     agreeOnClick: any,
-    onChangeInput: any,
+    onChangeLabelField: any,
     id: any
 }
 
-const AddFolderButtonComponent = ({buttonText,title, agreeOnClick, onChangeInput, id}: AddFolderButtonComponentProps) => {
+const AddFolderButtonComponent = ({buttonText, title, agreeOnClick, onChangeLabelField, id}: AddFolderButtonComponentProps) => {
 
     const [isDisplayed, setIsDisplayed] = useState<boolean>(false);
 
@@ -44,7 +44,7 @@ const AddFolderButtonComponent = ({buttonText,title, agreeOnClick, onChangeInput
             <div className="AddFolderButtonComponent_container" onClick={HandlePropagation} >
                 <h3 className="AddFolderButtonComponent_title" >{title}</h3>
                 <form className="AddFolderButtonComponent_description">
-                    <TextField name={id} onChange={onChangeInput} placeholder=" Nom du dossier" />
+                    <TextField name={id} onChange={onChangeLabelField} placeholder=" Nom du dossier" />
                 </form>
                 <div className="AddFolderButtonComponent_buttons"><div className="AddFolderButtonComponent_button" onClick={DisagreeTrigger} >Annuler</div><div className="AddFolderButtonComponent_button" onClick={AgreeTrigger}>Créer</div></div>
             </div>
