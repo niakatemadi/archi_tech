@@ -1,6 +1,6 @@
 @use "../../utils/constants/constants.scss" as *;
 
-.AddFolderButtonComponent {
+.ItemComponent {
     margin: 10px;
 
     &_container {
@@ -21,22 +21,11 @@
     &_item{
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
         border: 1px solid black;
         box-shadow: 0 0 2px;
         max-width: 200px;
-        border-radius: 20px;
-        height: 40px;
-        background-color: $primaryColor;
-        padding: 0 10px;
-        color: white;
-        transition: 0.3s;
-
-        &:hover {
-            cursor: pointer;
-            opacity: 0.9;
-        }
     }
 
     &_background {

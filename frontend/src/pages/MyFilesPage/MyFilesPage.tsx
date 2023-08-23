@@ -3,7 +3,8 @@ import "./MyFilesPage.scss";
 import { useLocation } from "react-router-dom";
 import FileComponent from '../../components/FileComponent/FileComponent';
 import { UserContext } from '../../utils/contexts/userContext';
-import AddFileButtonComponent from '../../components/AddFileButtonComponent/AddFileButtonComponent';
+import AlertComponent from '../../components/AlertComponent/AlertComponent';
+import TextField from '../../components/TextField/TextField';
 
 const MyFilesPage = () => {
 
@@ -125,7 +126,10 @@ const MyFilesPage = () => {
           <div className='MyFilesSection'>
             <div className='MyFilesSection__header'>
               <p className='MyFilesSection__header--title'> Mes fichiers</p> 
-              <AddFileButtonComponent title={'Veuillez écrire le nom du fichier'} buttonText={'Créer un fichier'} agreeOnClick={handleUpload} onChangeFileField={handleFile} onChangeLabelField={handleInput} />
+              <AlertComponent title='Ajouter un fichier' buttonText='Ajouter un fichier' agreeOnClick={handleUpload}>
+                <TextField type='text' placeholder=' Nom du fichier' name='fileLabel' onChange={handleInput}/>
+                <TextField type='file' name='file' onChange={handleFile}/>
+              </AlertComponent>
             </div>
            <div className='MyFilesSection__fileList'>
            {

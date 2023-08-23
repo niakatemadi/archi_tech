@@ -3,7 +3,11 @@ import "./MyFoldersPage.scss";
 import { Link, useNavigate } from 'react-router-dom';
 import FolderComponent from '../../components/FolderComponent/FolderComponent';
 import { UserContext } from '../../utils/contexts/userContext';
-import AddFolderButtonComponent from '../../components/AddFolderButtonComponent/AddFolderButtonComponent';
+import AlertComponent from '../../components/AlertComponent/AlertComponent';
+import TextField from '../../components/TextField/TextField';
+import ItemComponent from '../../components/ItemComponent/ItemComponent';
+import DeleteSvg from '../../assets/svg/DeleteSvg';
+import DownloadSvg from '../../assets/svg/DownloadSvg';
 
 const MyFoldersPage = () => {
     const [folders, setFolders] = useState<Array<any>>([]);
@@ -91,19 +95,26 @@ const MyFoldersPage = () => {
       .catch(err => console.log(err));
     }
 
+    function DownloadFile(fileLabel:any, filePath:any){
+      console.log("ooororrroro")
+      console.log(fileLabel)
+      console.log(filePath)
+  }
+
 
   return (
     <div className='MyFoldersSection'>
       <div className='MyFoldersSection__header'>
           <p className='MyFoldersSection__header--title'> Mes dossiers</p> 
-          <AddFolderButtonComponent id="folderLabel" title={'Veuillez écrire le nom du dossier'} buttonText={'Créer un dossier'} agreeOnClick={CreateNewFolder} onChangeLabelField={HandleInputData} />
+          <AlertComponent title={'Ajouter un dossier'} buttonText={'Ajouter un dossier'} agreeOnClick={CreateNewFolder} >
+            <TextField name="folderLabel" onChange={HandleInputData} placeholder=" Nom du dossier" />     
+          </AlertComponent>
       </div >
           <div className='MyFoldersSection__folderList'>
             {
 
-            folders.length > 0 && folders.map( (element, index) => <FolderComponent OnClick={() => RedirectToFilesPage(element)} key={index} title={'Supprimer'} description={'Voulez vous vraiment supprimer ce dossier ?'} buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} disagreeOnClick={() => {}} />)    
-            }
-            
+            folders.length > 0 && folders.map( (element, index) => <ItemComponent title={'Supprimer'} description={'Voulez-vous vraiment supprimer ce dossier ?'} buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} disagreeOnClick={undefined} OnClick={() => RedirectToFilesPage(element)}><DownloadSvg onClick={DownloadFile} href={element.path} /> </ItemComponent>)    
+            }           
           </div>
       
     </div>

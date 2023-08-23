@@ -1,6 +1,6 @@
 @use "../../utils/constants/constants.scss" as *;
 
-.AddFileButtonComponent {
+.AlertComponent {
     margin: 10px;
 
     &_container {
@@ -15,7 +15,6 @@
         justify-content: space-between;
         transform: translateY(0);
         animation: showAlertAnimation 0.3s ease-out;
-    
     }
 
     &_item{
