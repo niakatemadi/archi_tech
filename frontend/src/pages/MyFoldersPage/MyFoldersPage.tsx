@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "./MyFoldersPage.scss";
 import { Link, useNavigate } from 'react-router-dom';
-import FolderComponent from '../../components/FolderComponent/FolderComponent';
 import { UserContext } from '../../utils/contexts/userContext';
 import AlertComponent from '../../components/AlertComponent/AlertComponent';
 import TextField from '../../components/TextField/TextField';
@@ -67,7 +66,6 @@ const MyFoldersPage = () => {
 
     function RedirectToFilesPage(element:any){
 
-
       navigate("/userDashboard/files", {state: {folderInfo : element}})
     };
 
@@ -95,13 +93,6 @@ const MyFoldersPage = () => {
       .catch(err => console.log(err));
     }
 
-    function DownloadFile(fileLabel:any, filePath:any){
-      console.log("ooororrroro")
-      console.log(fileLabel)
-      console.log(filePath)
-  }
-
-
   return (
     <div className='MyFoldersSection'>
       <div className='MyFoldersSection__header'>
@@ -112,9 +103,8 @@ const MyFoldersPage = () => {
       </div >
           <div className='MyFoldersSection__folderList'>
             {
-
-            folders.length > 0 && folders.map( (element, index) => <ItemComponent title={'Supprimer'} description={'Voulez-vous vraiment supprimer ce dossier ?'} buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} disagreeOnClick={undefined} OnClick={() => RedirectToFilesPage(element)}><DownloadSvg onClick={DownloadFile} href={element.path} /> </ItemComponent>)    
-            }           
+              folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} clickOnItem={() => RedirectToFilesPage(element)} children={undefined} />)    
+            }         
           </div>
       
     </div>

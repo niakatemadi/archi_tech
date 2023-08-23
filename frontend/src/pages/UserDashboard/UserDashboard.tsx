@@ -19,7 +19,7 @@ const UserDashboard = () => {
               <CustomButton text="Dashboard" svgIcon={undefined} onClick={undefined} variant={''} />
             </Link>
             <Link to="/userDashboard/folders">
-              <CustomButton text="Mes dossiers" svgIcon={undefined} onClick={undefined} variant={''} />
+              <CustomButton text="My folders" svgIcon={undefined} onClick={undefined} variant={''} />
             </Link>
             <CustomButton text="Corbeille" svgIcon={undefined} onClick={undefined} variant={''} />
           </div>

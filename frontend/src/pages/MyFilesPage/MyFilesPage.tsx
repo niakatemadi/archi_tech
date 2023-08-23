@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "./MyFilesPage.scss";
 import { useLocation } from "react-router-dom";
-import FileComponent from '../../components/FileComponent/FileComponent';
 import { UserContext } from '../../utils/contexts/userContext';
 import AlertComponent from '../../components/AlertComponent/AlertComponent';
 import TextField from '../../components/TextField/TextField';
+import ItemComponent from '../../components/ItemComponent/ItemComponent';
+import DownloadSvg from '../../assets/svg/DownloadSvg';
 
 const MyFilesPage = () => {
 
@@ -133,7 +134,9 @@ const MyFilesPage = () => {
             </div>
            <div className='MyFilesSection__fileList'>
            {
-             files.map(({fileLabel, _id, filePath, userId, fileSizeMb, folderId}, index) => <FileComponent fileLabel={fileLabel} filePath={filePath} OnClick={() => {}}  key={index} title={'Supprimer'} description={'Voulez vous vraiment supprimer ce dossier ?'} buttonText={fileLabel} agreeOnClick={() => DeleteFile(_id,userId,fileSizeMb, folderId)} disagreeOnClick={() => {}} />)
+             files.map(({fileLabel, _id, filePath, userId, fileSizeMb, folderId}, index) =>
+              <ItemComponent key={index} isFolderItem={false} buttonText={fileLabel} agreeOnClick={() => DeleteFile(_id,userId,fileSizeMb,folderId)} clickOnItem={() => {}} ><DownloadSvg fileLabel={fileLabel} href={filePath}/> </ItemComponent>
+              )
            }
            </div>
            
