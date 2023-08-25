@@ -1,12 +1,12 @@
 import React from 'react'
-import TextField from '../../components/TextField/TextField';
+import TextField from '../../../components/TextField/TextField';
 import "./SignUpPage.scss";
 import { useState, useContext } from 'react';
 import axios from "axios";
-import { UserContext } from '../../utils/contexts/userContext';
-import sendConfirmationSignUpEmail from '../../utils/functions/sendConfirmationSignUpEmail';
+import { UserContext } from '../../../utils/contexts/userContext';
+import sendConfirmationSignUpEmail from '../../../utils/functions/sendConfirmationSignUpEmail';
 import { Link } from 'react-router-dom';
-import useFetch from '../../utils/hooks/useFetch';
+import useFetch from '../../../utils/hooks/useFetch';
 
 const SignUpPage = () => {
 

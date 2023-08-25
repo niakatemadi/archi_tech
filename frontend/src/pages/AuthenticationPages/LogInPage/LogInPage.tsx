@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import TextField from '../../components/TextField/TextField';
+import TextField from '../../../components/TextField/TextField';
 import "./LogInPage.scss";
-import { UserContext } from '../../utils/contexts/userContext';
+import { UserContext } from '../../../utils/contexts/userContext';
 import { Link, useNavigate } from "react-router-dom";
-import useFetch from '../../utils/hooks/useFetch';
+import useFetch from '../../../utils/hooks/useFetch';
 
 const LogInPage = () => {
 
@@ -26,13 +26,17 @@ const LogInPage = () => {
 
      if(user){
 
-       const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed} = user;
+       const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, role} = user;
        setUser({ name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed}); 
        localStorage.setItem("currentUser", JSON.stringify(user)); 
        localStorage.setItem("token",token);
-  
-       if(token!=null){
-        navigate("/userDashboard");
+
+       if(token!=null && role=="customer"){
+        navigate("/customerDashboard");
+       }
+       
+       if (token !=null && role=="admin"){
+        navigate("/adminDashboard");
        }
      }
 
