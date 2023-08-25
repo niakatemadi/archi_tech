@@ -7,65 +7,21 @@ import TextField from '../../components/TextField/TextField';
 import ItemComponent from '../../components/ItemComponent/ItemComponent';
 import DeleteSvg from '../../assets/svg/DeleteSvg';
 import DownloadSvg from '../../assets/svg/DownloadSvg';
+import useFetchFolders from '../../utils/hooks/useFetchFolders';
+import createNewFolder from '../../utils/functions/createNewFolder';
+import useFetch from '../../utils/hooks/useFetch';
 
-const MyFoldersPage = () => {
-    const [folders, setFolders] = useState<Array<any>>([]);
+
+const MyFoldersPage =  () => {
+    const navigate = useNavigate();
     const currentUser = JSON.parse(localStorage.getItem("currentUser")!);
-    const [folderFormData, setFolderFormData] = useState<any>({});
 
     const {user, setUser} = useContext(UserContext);
+    const [folders, setFolders] = useFetchFolders(currentUser._id);
+    const [folderFormData, setFolderFormData] = useState<any>({});
 
-    useEffect(() => {
-
-        const token = localStorage.getItem("token");
-        console.log("mytoken",token);
-
-        const options = {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${token}`
-            }
-        }
-
-      const url = `http://localhost:3350/api/v1/folders/${currentUser._id}`;
-
-      console.log("url",url)
-
-        fetch(url, options)
-        .then(response => response.json())
-        .then( data => {console.log("my folders datas:",data); setFolders(data)})
-        .catch(err => console.log(err));
-        
-    },[]);
-
-    function DeleteFolder(folderid: string, userId: string){
-
-        console.log("inside delete fucntion", folderid)
-        const token = localStorage.getItem("token");
-
-        const options = {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify({userId})
-        }
-
-        const url = `http://localhost:3350/api/v1/folders/${folderid}`
-  // J'ai ajouter le localstorage en derniere minute
-        fetch(url, options)
-        .then(response => response.json())
-        .then( data => {console.log("my folders datas:",data); setUser(data.userUpdated); setFolders(data.newFolderList); localStorage.setItem("currentUser", JSON.stringify(data.userUpdated));})
-        .catch(err => console.log(err));
-
-    }
-
-    const navigate = useNavigate();
 
     function RedirectToFilesPage(element:any){
-
       navigate("/userDashboard/files", {state: {folderInfo : element}})
     };
 
@@ -73,24 +29,30 @@ const MyFoldersPage = () => {
       setFolderFormData({[e.target.name] : e.target.value})
     }
 
-    function CreateNewFolder(){
-      const token = localStorage.getItem("token");
 
-      const options = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            "Authorization": `Bearer ${token}`
-          },
-          body: JSON.stringify({"userId": user._id, "folderLabel": folderFormData.folderLabel})
-      }
+    const DeleteFolder = async(folderid: string, userId: string) => {
 
-      const url = "http://localhost:3350/api/v1/folders"
-// J'ai ajouter le localstorage en derniere minute
-      fetch(url, options)
-      .then(response => response.json())
-      .then( data => {console.log("new folder created:",data); setUser(data.userUpdated); setFolders(data.newFolderList); localStorage.setItem("currentUser",JSON.stringify(data.userUpdated));})
-      .catch(err => console.log(err));
+      const url = `http://localhost:3350/api/v1/folders/${folderid}`;
+      const body = { userId };
+
+      const {userUpdated, newFolderList} = await useFetch("DELETE", url, JSON.stringify(body));
+
+      setUser(userUpdated);
+      setFolders(newFolderList);
+      localStorage.setItem("currentUser", JSON.stringify(userUpdated));
+
+    }
+
+    const CreateNewFolder = async() => {
+      const url = "http://localhost:3350/api/v1/folders";
+      const body = {"userId": user._id, "folderLabel": folderFormData.folderLabel};
+
+      const {userUpdated, newFolderList} = await useFetch("POST",url,JSON.stringify(body));
+
+      setUser(userUpdated);
+      setFolders(newFolderList)
+
+      localStorage.setItem("currentUser",JSON.stringify(userUpdated));
     }
 
   return (
