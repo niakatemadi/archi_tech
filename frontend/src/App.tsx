@@ -15,6 +15,7 @@ import AdminHomePage from './pages/AdminPages/AdminHomePage/AdminHomePage';
 import AdminCustomersPage from './pages/AdminPages/AdminCustomersPage/AdminCustomersPage';
 import AdminCustomerFoldersPage from './pages/AdminPages/AdminCustomerFoldersPage/AdminCustomerFoldersPage';
 import AdminCustomerFilesPage from './pages/AdminPages/AdminCustomerFilesPage/AdminCustomerFilesPage';
+import CustomerProfilePage from './pages/CustomerPages/CustomerProfilePage/CustomerProfilePage';
 
 function App() {
 
@@ -31,12 +32,13 @@ function App() {
                   <Route path="home" element={<CustomerHomePage />} />   
                   <Route path="folders" element={<CustomerFoldersPage />} />   
                   <Route path="files" element={<CustomerFilesPage />} />   
+                  <Route path="profile" element={<CustomerProfilePage />} />   
                 </Route>          
                 <Route path="/adminDashboard/" element={<AdminDashboard />} >
                   <Route path="customers" element={<AdminCustomersPage />} />            
                   <Route path="home" element={<AdminHomePage />} />  
                   <Route path="customerFolders" element={<AdminCustomerFoldersPage />} />           
-                  <Route path="customerFiles" element={<AdminCustomerFilesPage />} />           
+                  <Route path="customerFiles" element={<AdminCustomerFilesPage />} />  
                 </Route>          
             </Routes>
           </BrowserRouter>
