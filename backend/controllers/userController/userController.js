@@ -96,24 +96,33 @@ const GetAllUsers = asyncWrapper( async (req, res) => {
 const deleteUser = asyncWrapper( async (req, res) => {
 
   try {
+
     
     const userId = req.params.id;
+    console.log("1", userId);
 
     const foldersFound = await folderModel.find({userId});
+    console.log("2",foldersFound);
+
 
     foldersFound.map(async(folder) => {
       await folderModel.findByIdAndDelete(folder._id);
     })
 
     const filesFound = await fileModel.find({userId});
+    console.log("3",filesFound);
+
 
     filesFound.map(async(file) => {
       await fileModel.findByIdAndDelete(file._id);
     })
 
-    const userDeleted = await userModel.findByIdAndDelete(userId)
+    const userDeleted = await userModel.findByIdAndDelete(userId);
+    console.log("4",userDeleted);
 
-    res.status(200).json({userDeleted, filesDeleted : filesFound, foldersDeleted : foldersFound });
+
+
+    res.status(200).json(userDeleted);
     
   }catch(error){
     console.log(error);
