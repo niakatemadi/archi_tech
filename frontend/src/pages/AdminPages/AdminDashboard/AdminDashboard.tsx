@@ -18,7 +18,7 @@ const AdminDashboard = () => {
             <Link to="/adminDashboard/home">
               <CustomButton text="Dashboard" svgIcon={undefined} onClick={undefined} variant={''} />
             </Link>
-            <Link to="/adminDashboard/folders">
+            <Link to="/adminDashboard/customers">
               <CustomButton text="Customers" svgIcon={undefined} onClick={undefined} variant={''} />
             </Link>
             <CustomButton text="Corbeille" svgIcon={undefined} onClick={undefined} variant={''} />

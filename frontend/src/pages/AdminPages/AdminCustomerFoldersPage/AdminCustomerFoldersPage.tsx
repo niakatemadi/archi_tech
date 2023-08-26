@@ -1,26 +1,32 @@
 import React, { useContext, useState } from 'react'
-import "./CustomerFoldersPage.scss";
-import { useNavigate } from 'react-router-dom';
+import "./AdminCustomerFoldersPage.scss";
+import { useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../utils/contexts/userContext';
 import AlertComponent from '../../../components/AlertComponent/AlertComponent';
 import TextField from '../../../components/TextField/TextField';
 import ItemComponent from '../../../components/ItemComponent/ItemComponent';
 import useFetchFolders from '../../../utils/hooks/useFetchFolders';
 import useFetch from '../../../utils/hooks/useFetch';
+import pageRedirection from '../../../utils/functions/pageRedirection';
 
 
-const CustomerFoldersPage =  () => {
+const AdminCustomerFoldersPage =  () => {
     const navigate = useNavigate();
-    const currentUser = JSON.parse(localStorage.getItem("currentUser")!);
+    //const currentUser = JSON.parse(localStorage.getItem("currentUser")!);
+    const location = useLocation();
+    const customer = location.state.customerInfo;
 
     const {user, setUser} = useContext(UserContext);
-    const [folders, setFolders] = useFetchFolders(currentUser._id);
+    const [folders, setFolders] = useFetchFolders(customer._id);
     const [folderFormData, setFolderFormData] = useState<any>({});
 
+    function RedirectToCustomerFilesPage(element:any){
+        navigate("/adminDashboard/customerFiles", {state: {folderInfo : element}});
+      };
 
-    function RedirectToFilesPage(element:any){
+   /* function RedirectToFilesPage(element:any){
       navigate("/customerDashboard/files", {state: {folderInfo : element}});
-    };
+    };*/
 
     function HandleInputData(e:any){
       setFolderFormData({[e.target.name] : e.target.value})
@@ -55,14 +61,14 @@ const CustomerFoldersPage =  () => {
   return (
     <div className='MyFoldersSection'>
       <div className='MyFoldersSection__header'>
-          <p className='MyFoldersSection__header--title'> Mes dossiers</p> 
+          <p className='MyFoldersSection__header--title'> Dossiers du client : {customer.name} {customer.firstName}</p> 
           <AlertComponent title={'Ajouter un dossier'} buttonText={'Ajouter un dossier'} agreeOnClick={CreateNewFolder} >
             <TextField name="folderLabel" onChange={HandleInputData} placeholder=" Nom du dossier" />     
           </AlertComponent>
       </div >
           <div className='MyFoldersSection__folderList'>
             {
-              folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} clickOnItem={() => RedirectToFilesPage(element)} children={undefined} />)    
+              folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} clickOnItem={() => RedirectToCustomerFilesPage(element)} children={undefined} />)    
             }         
           </div>
       
@@ -70,4 +76,4 @@ const CustomerFoldersPage =  () => {
   )
 }
 
-export default CustomerFoldersPage
+export default AdminCustomerFoldersPage
