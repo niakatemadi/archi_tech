@@ -130,4 +130,34 @@ const deleteUser = asyncWrapper( async (req, res) => {
 
 });
 
-module.exports = {SignUp, LogIn, UpdateUserAvatar, GetAllUsers, deleteUser};
+const addStorageAfterPayment = asyncWrapper( async(req, res) => {
+
+  try{
+
+    const userId = req.body.userId;
+    console.log("userid in add storage fctn",userId);
+    console.log("bodyyy", req.body);
+    
+    const userFound = await userModel.findById(userId);
+
+    console.log("useriiiid", userFound);
+    
+    const currentTotalStoragePurchased = userFound.totalStoragePurchased;
+
+    
+    console.log("storage purchased", currentTotalStoragePurchased);
+    const newTotalStoragePurchased = currentTotalStoragePurchased + 20;
+
+    console.log("storage purchased 2", newTotalStoragePurchased);
+    
+    const userUpdated = await userModel.findByIdAndUpdate(userId, {totalStoragePurchased : newTotalStoragePurchased});
+    console.log("storage purchased 3", userUpdated);
+    
+    res.status(200).json(userUpdated);
+
+  }catch(error){
+    console.log(error);
+  }
+})
+
+module.exports = {SignUp, LogIn, UpdateUserAvatar, GetAllUsers, deleteUser, addStorageAfterPayment};

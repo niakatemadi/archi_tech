@@ -26,8 +26,8 @@ const LogInPage = () => {
 
      if(user){
 
-       const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, role} = user;
-       setUser({ name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed}); 
+       const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, role, totalStoragePurchased} = user;
+       setUser({ name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased}); 
        localStorage.setItem("currentUser", JSON.stringify(user)); 
        localStorage.setItem("token",token);
 

@@ -10,6 +10,7 @@ const CustomerHomePage = () => {
         <p>Total stockage utilisés : {user.totalStorageUsed}</p>
         <p> Nombre total de fichiers : {user.numberOfFiles}</p>
         <p> Nombre total de dossiers : {user.numberOfFolders}</p>
+        <p> Total storage purchased : {user.totalStoragePurchased}</p>
     </div>
   )
 }

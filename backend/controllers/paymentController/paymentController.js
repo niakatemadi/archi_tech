@@ -15,7 +15,7 @@ const stripePayment = async (req, res) => {
       billing_address_collection: 'required',
       mode: 'payment',
       success_url: "http://localhost:3000/customerDashboard/profile?success=true",
-      cancel_url: "http://localhost:3000?canceled=true"
+      cancel_url: "http://localhost:3000/customerDashboard/profile?canceled=true"
     });
 
     res.status(200).json(session);
