@@ -59,6 +59,8 @@ const addFile = asyncWrapper( async (req, res) => {
         const fileName = req.file.originalname;
         const fileSizeMb = req.file.size;
         const folderId = req.body.folderId;
+        const fileType = req.file.mimetype;
+        console.log("fileType", fileType);
 
         console.log("fileSizeMb",fileSizeMb)
 
@@ -75,7 +77,7 @@ const addFile = asyncWrapper( async (req, res) => {
     
         const userUpdated = await userModel.findByIdAndUpdate(userId, {totalStorageUsed : newTotalStorageUsed, numberOfFiles : newTotalFileNumber}, {new: true});
 
-        const file = await fileModel.create({fileName, filePath, folderId, userId, fileLabel, fileSizeMb});
+        const file = await fileModel.create({fileName, filePath, folderId, userId, fileLabel, fileSizeMb, fileType});
         res.status(201).json({ file, userUpdated })
     }catch(error){
         console.log(error);
