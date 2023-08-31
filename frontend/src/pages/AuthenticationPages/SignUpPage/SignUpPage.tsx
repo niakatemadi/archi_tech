@@ -5,13 +5,14 @@ import { useState, useContext } from 'react';
 import axios from "axios";
 import { UserContext } from '../../../utils/contexts/userContext';
 import sendConfirmationSignUpEmail from '../../../utils/functions/sendConfirmationSignUpEmail';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useFetch from '../../../utils/hooks/useFetch';
 
 const SignUpPage = () => {
 
     const [signUpForm, setSignUpForm] = useState({ name :"", email:""});
     const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
     function HandleSignUpForm(e:any){
         e.preventDefault();
@@ -28,6 +29,7 @@ const SignUpPage = () => {
         const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased} = user;
 
         setUser({name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased});
+        navigate("/")
 
      }
 
