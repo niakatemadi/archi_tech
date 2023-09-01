@@ -21,14 +21,14 @@ const SignUpPage = () => {
 
     async function SendSignUpForm(){
 
-        sendConfirmationSignUpEmail(signUpForm.name, signUpForm.email)
-
-        const url = "http://localhost:3350/api/v1/signUp";
-
-        const { user } = await useFetch("POST", url, JSON.stringify(signUpForm));
-        const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased} = user;
-
-        setUser({name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased});
+      
+      const url = "http://localhost:3350/api/v1/signUp";
+      
+      const { user } = await useFetch("POST", url, JSON.stringify(signUpForm));
+      const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased} = user;
+      
+      setUser({name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased});
+      sendConfirmationSignUpEmail(signUpForm.name, signUpForm.email);
         navigate("/")
 
      }

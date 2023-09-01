@@ -4,6 +4,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { UserContext } from '../../../utils/contexts/userContext';
 import PaymentCardComponent from '../../../components/PaymentCardComponent/PaymentCardComponent';
 import addStorageAfterPayment from '../../../utils/functions/addStorageAfterPayment';
+import sendPurchasedConfirmation from '../../../utils/functions/sendPurchasedConfirmation';
 
 const CustomerPaymentPage = () => {
 
@@ -20,18 +21,24 @@ const CustomerPaymentPage = () => {
       if (searchParams.get("success")) {
         setIsPurchaseSucceed(true);
         
-        setMessage("Order placed! You will receive an email confirmation.");
+        setMessage("Achat réussi! Vous receverez une confirmation dans votre boite électronique.");
         
-        const userId = JSON.parse(localStorage.getItem("currentUser")!)._id;
+        const userFromLocalStorage = JSON.parse(localStorage.getItem("currentUser")!);
+        const userId = userFromLocalStorage._id;
+        const userFirstName = userFromLocalStorage.firstName;
+        const userEmail = userFromLocalStorage.email;
         
-        addStorageAfterPayment(userId).then((userUpdated) => {setUser(userUpdated); localStorage.setItem("currentUser",JSON.stringify(userUpdated));console.log(userUpdated)} );
+        sendPurchasedConfirmation(userFirstName, userEmail);
+        
+        addStorageAfterPayment(userId).then((userUpdated) => {setUser(userUpdated); localStorage.setItem("currentUser",JSON.stringify(userUpdated));console.log(userUpdated)});
+        console.log("purchase infos user",{userFirstName, userEmail})
        
     }
     
     if (searchParams.get("canceled")) {
         setIsPurchaseSucceed(false);
 
-        setMessage("Order canceled -- continue to shop around and checkout when you're ready.");
+        setMessage("Achat Annulé -- Votre achat n'a pas pu etre traité.");
       }
     }, []);
     
