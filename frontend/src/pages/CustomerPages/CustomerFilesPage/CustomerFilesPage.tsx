@@ -20,18 +20,20 @@ const CustomerFilesPage = () => {
     const [files, setFiles] = useFetchFiles(folderId);
     const {user, setUser} = useContext(UserContext);
     const [filesFiltered, setFilesFiltered] = useState<Array<any>>([]);
-    const [isFilesFilteredByAscending, setIsFilesFilteredByAscending] = useState(true)
+    const [isFilesFilteredByAscending, setIsFilesFilteredByAscending] = useState(true);
+
+    
 
     console.log("files filtered inital", filesFiltered);
 
-    const [fileFormData, setFileFormData] = useState<any>({})
+    const [fileFormData, setFileFormData] = useState<any>({});
 
       function handleFile(event:any){
         setFileFormData({...fileFormData, "file" : event.target.files[0]});
       }
 
       function handleInput(e:any){
-        setFileFormData({...fileFormData, [e.target.name] : e.target.value})
+        setFileFormData({...fileFormData, [e.target.name] : e.target.value});
       }  
 
       const HandleUpload = async(e:any) => {
@@ -107,6 +109,8 @@ const CustomerFilesPage = () => {
       const filesFound = [...files].filter(({fileLabel}) => fileLabel.includes(e.target.value));
       setFilesFiltered(filesFound);
     }
+
+    const displayFiles = filesFiltered.length > 0 ? filesFiltered : files;
  
       return (
           <div className='MyFilesSection'>
@@ -129,7 +133,7 @@ const CustomerFilesPage = () => {
             </div>
             <div className='MyFilesSection__fileList'>
             {
-              filesFiltered.map(({fileLabel, _id, filePath, userId, fileSizeMb, folderId}, index) =>
+              displayFiles.map(({fileLabel, _id, filePath, userId, fileSizeMb, folderId}, index) =>
                 <ItemComponent key={index} isFolderItem={false} buttonText={fileLabel} agreeOnClick={() => DeleteFile(_id,userId,fileSizeMb,folderId)} clickOnItem={() => {}} ><DownloadSvg fileLabel={fileLabel} href={filePath}/> </ItemComponent>
                 )
             }

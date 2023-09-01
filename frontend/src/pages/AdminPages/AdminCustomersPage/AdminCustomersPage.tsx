@@ -14,12 +14,19 @@ const AdminCustomersPage = () => {
 
 
   return (
-    <div>
-      {
-        users.map((user) => {
-          return (<div className='CustomerRow' onClick={() => RedirectToCustomerFoldersPage(user)}><p>{user.name}</p><p>{user.firstName}</p><p>{user.totalStorageUsed}</p><p>{user.totalStoragePurchased}</p></div>)
-        })
-      }
+    <div className='AdminHomePageBloc'>
+      <div className='AdminHomePageBloc__blocTitle'>
+          <h2 className='AdminHomePage__title'>Customers</h2>
+      </div>
+      <div className='AdminHomePageBloc__blocListCustomers'>
+        <div className='AdminHomePageBloc__blocListCustomers--inner'>
+          {
+            users.map((user) => {
+              return (<div className='CustomerRow' onClick={() => RedirectToCustomerFoldersPage(user)}><p>{user.name}</p><p>{user.firstName}</p><p>{user.totalStorageUsed} Ko</p><p>{user.totalStoragePurchased} Go</p></div>)
+            })
+          }
+        </div>
+      </div>
     </div>
   )
 }

@@ -8,6 +8,7 @@ import ItemComponent from '../../../components/ItemComponent/ItemComponent';
 import useFetchFolders from '../../../utils/hooks/useFetchFolders';
 import useFetch from '../../../utils/hooks/useFetch';
 import pageRedirection from '../../../utils/functions/pageRedirection';
+import BackComponent from '../../../components/BackComponent/BackComponent';
 
 
 const AdminCustomerFoldersPage =  () => {
@@ -60,6 +61,7 @@ const AdminCustomerFoldersPage =  () => {
 
   return (
     <div className='MyFoldersSection'>
+      <BackComponent onClick={() => pageRedirection("/adminDashboard/customers",{},navigate)} />
       <div className='MyFoldersSection__header'>
           <p className='MyFoldersSection__header--title'> Dossiers du client : {customer.name} {customer.firstName}</p> 
           <AlertComponent title={'Ajouter un dossier'} buttonText={'Ajouter un dossier'} agreeOnClick={CreateNewFolder} >
