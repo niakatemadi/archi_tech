@@ -16,7 +16,7 @@ const AdminHomePage = () => {
   return (
     <div className='AdminHomePageBloc'>
         <div className='AdminHomePageBloc__blocTitle'>
-            <h2 className='AdminHomePage__title'>Dashboard</h2>
+            <h2 className='AdminHomePage__title'>Statistiques</h2>
         </div>
         <div className='AdminHomePageBloc__blocListUsers'>
             <div className='AdminHomePageBloc__listUsers'>

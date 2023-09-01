@@ -16,7 +16,7 @@ const AdminDashboard = () => {
         <div className="UserNavBar__middleBloc" >
           <div  className='UserNavBar__navigations'>
             <Link to="/adminDashboard/home">
-              <CustomButton text="Dashboard" svgIcon={undefined} onClick={undefined} variant={''} />
+              <CustomButton text="Statistiques" svgIcon={undefined} onClick={undefined} variant={''} />
             </Link>
             <Link to="/adminDashboard/customers">
               <CustomButton text="Customers" svgIcon={undefined} onClick={undefined} variant={''} />

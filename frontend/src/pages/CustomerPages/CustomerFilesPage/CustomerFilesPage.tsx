@@ -106,7 +106,7 @@ const CustomerFilesPage = () => {
 
     function SearchFiles(e:any){
 
-      const filesFound = [...files].filter(({fileLabel}) => fileLabel.includes(e.target.value));
+      const filesFound = [...files].filter(({fileLabel}) => fileLabel.includes(e.target.value.toLowerCase()));
       setFilesFiltered(filesFound);
     }
 
