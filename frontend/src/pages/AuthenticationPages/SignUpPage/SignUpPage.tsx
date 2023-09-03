@@ -7,6 +7,7 @@ import { UserContext } from '../../../utils/contexts/userContext';
 import sendConfirmationSignUpEmail from '../../../utils/functions/sendConfirmationSignUpEmail';
 import { Link, useNavigate } from 'react-router-dom';
 import useFetch from '../../../utils/hooks/useFetch';
+import displayStripePaymentWall from '../../../utils/functions/displayStripePaymentWall';
 
 const SignUpPage = () => {
 
@@ -25,12 +26,18 @@ const SignUpPage = () => {
       const url = "http://localhost:3350/api/v1/signUp";
       
       const { user } = await useFetch("POST", url, JSON.stringify(signUpForm));
-      const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased} = user;
-      
-      setUser({name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased});
-      sendConfirmationSignUpEmail(signUpForm.name, signUpForm.email);
-        navigate("/")
+      console.log("user feteched return",user);
+      if(user){
+        
+        const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased} = user;
+        setUser({name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased});
+        sendConfirmationSignUpEmail(signUpForm.name, signUpForm.email);
 
+        displayStripePaymentWall(_id);
+     //   navigate("/")
+
+        return;
+      }
      }
 
   return (
@@ -62,3 +69,7 @@ const SignUpPage = () => {
 }
 
 export default SignUpPage
+
+function PaymentPage() {
+  throw new Error('Function not implemented.');
+}
