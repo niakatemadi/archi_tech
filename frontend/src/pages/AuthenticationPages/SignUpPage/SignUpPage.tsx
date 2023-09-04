@@ -25,7 +25,9 @@ const SignUpPage = () => {
       
       const url = "http://localhost:3350/api/v1/signUp";
       
-      const { user } = await useFetch("POST", url, JSON.stringify(signUpForm));
+      const { user, token } = await useFetch("POST", url, JSON.stringify(signUpForm));
+      localStorage.setItem("currentUser",JSON.stringify(user));
+      localStorage.setItem("token",token);
       console.log("user feteched return",user);
       if(user){
         
