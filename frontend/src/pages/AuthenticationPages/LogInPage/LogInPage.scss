@@ -14,6 +14,16 @@
         font-size: 18px;
     }
 
+    &__failedMessage{
+        color: red;
+        font-weight: bold;
+    }
+
+    &__alertMessage {
+        color: green;
+        font-weight: bold;
+    }
+
     &__form {
         width: 80%;
         height: 52vh;

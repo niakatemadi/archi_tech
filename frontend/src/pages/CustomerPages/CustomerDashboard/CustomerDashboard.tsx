@@ -4,6 +4,9 @@ import BannerComponent from '../../../components/BannerComponent/BannerComponent
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { Link, Outlet } from 'react-router-dom';
 import { UserContext } from '../../../utils/contexts/userContext';
+import customerProfileSvg from "../../../assets/profile-customer-icon.svg";
+import folderSvgIcon from "../../../assets/folder_icon_20px.svg";
+import customerDashboardIcon from "../../../assets/customer-dashboard-icon.svg";
 
 const CustomerDashboard = () => {
 
@@ -19,13 +22,13 @@ const CustomerDashboard = () => {
         <div className="UserNavBar__middleBloc" >
           <div  className='UserNavBar__navigations'>
             <Link to="/customerDashboard/home">
-              <CustomButton text="Dashboard" svgIcon={undefined} onClick={undefined} variant={''} />
+              <CustomButton text="Accueil" svgIcon={customerDashboardIcon} onClick={undefined} variant={''} />
             </Link>
             <Link to="/customerDashboard/folders">
-              <CustomButton text="My folders" svgIcon={undefined} onClick={undefined} variant={''} />
+              <CustomButton text="Dossiers" svgIcon={folderSvgIcon} onClick={undefined} variant={''} />
             </Link>
             <Link to="/customerDashboard/profile">
-              <CustomButton text="Profile" svgIcon={undefined} onClick={undefined} variant={''} />
+              <CustomButton text="Profil" svgIcon={customerProfileSvg} onClick={undefined} variant={''} />
             </Link>
           </div>
           <div className='StorageIndicatorComponent'>
@@ -40,7 +43,7 @@ const CustomerDashboard = () => {
         </div>
         <div className='UserNavBar__profileBloc' >
           <div className='UserNavBar__profilePicture'></div>
-          <p className='UserNavBar__profileText'>Profile</p>
+          <p className='UserNavBar__profileText'>Profil</p>
         </div>
       </div>
       <div className='OutletBloc'>

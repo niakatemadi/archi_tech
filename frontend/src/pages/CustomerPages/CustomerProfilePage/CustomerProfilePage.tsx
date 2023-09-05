@@ -20,11 +20,11 @@ const CustomerProfilePage = () => {
 
         sendConfirmationAccountDeletionEmail(userDeleted);
 
-        navigate("/");
+        navigate("/", { state : "userAccountDeleted"});
       }
       
     async function LogOut(){
-        navigate("/");
+        navigate("/", { state : "userLogOut"});
 
     }
 

@@ -20,6 +20,7 @@ const AdminCustomerFoldersPage =  () => {
     const {user, setUser} = useContext(UserContext);
     const [folders, setFolders] = useFetchFolders(customer._id);
     const [folderFormData, setFolderFormData] = useState<any>({});
+    const [messageNewFolderAdded, setMessageNewFolderAdded] = useState<string>();
 
     function RedirectToCustomerFilesPage(element:any){
         navigate("/adminDashboard/customerFiles", {state: {folderInfo : element}});
@@ -53,7 +54,12 @@ const AdminCustomerFoldersPage =  () => {
 
       const {userUpdated, newFolderList} = await useFetch("POST",url,JSON.stringify(body));
 
-      setUser(userUpdated);
+      if(userUpdated){
+        setUser(userUpdated);
+        setMessageNewFolderAdded("Nouveau dossier ajouté !")
+
+      }
+
       setFolders(newFolderList)
 
       localStorage.setItem("currentUser",JSON.stringify(userUpdated));
@@ -68,6 +74,7 @@ const AdminCustomerFoldersPage =  () => {
             <TextField name="folderLabel" onChange={HandleInputData} placeholder=" Nom du dossier" />     
           </AlertComponent>
       </div >
+      <span className='MyFoldersSection__messageNewFolderAdded'>{messageNewFolderAdded}</span>
           <div className='MyFoldersSection__folderList'>
             {
               folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} clickOnItem={() => RedirectToCustomerFilesPage(element)} children={undefined} />)    

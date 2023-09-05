@@ -9,6 +9,7 @@ import useFetchFolders from '../../../utils/hooks/useFetchFolders';
 import useFetch from '../../../utils/hooks/useFetch';
 
 
+
 const CustomerFoldersPage =  () => {
     const navigate = useNavigate();
     const currentUser = JSON.parse(localStorage.getItem("currentUser")!);
@@ -16,6 +17,7 @@ const CustomerFoldersPage =  () => {
     const {user, setUser} = useContext(UserContext);
     const [folders, setFolders] = useFetchFolders(currentUser._id);
     const [folderFormData, setFolderFormData] = useState<any>({});
+    const [messageNewFolderAdded, setMessageNewFolderAdded] = useState<string>();
 
 
     function RedirectToFilesPage(element:any){
@@ -46,10 +48,17 @@ const CustomerFoldersPage =  () => {
 
       const {userUpdated, newFolderList} = await useFetch("POST",url,JSON.stringify(body));
 
-      setUser(userUpdated);
-      setFolders(newFolderList)
+      if(userUpdated){
+        setUser(userUpdated);
+        localStorage.setItem("currentUser",JSON.stringify(userUpdated));
+        setMessageNewFolderAdded("Nouveau dossier ajouté !")
+      }
 
-      localStorage.setItem("currentUser",JSON.stringify(userUpdated));
+      if(newFolderList){
+        setFolders(newFolderList);
+      }
+
+
     }
 
   return (
@@ -60,11 +69,12 @@ const CustomerFoldersPage =  () => {
             <TextField name="folderLabel" onChange={HandleInputData} placeholder=" Nom du dossier" />     
           </AlertComponent>
       </div >
-          <div className='MyFoldersSection__folderList'>
-            {
-              folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} clickOnItem={() => RedirectToFilesPage(element)} children={undefined} />)    
-            }         
-          </div>
+      <span className='MyFoldersSection__messageNewFolderAdded'>{messageNewFolderAdded}</span>
+      <div className='MyFoldersSection__folderList'>
+        {
+          folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder(element._id, element.userId)} clickOnItem={() => RedirectToFilesPage(element)} children={undefined} />)    
+        }         
+      </div>
       
     </div>
   )

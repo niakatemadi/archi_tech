@@ -3,7 +3,8 @@ import "./AdminDashboard.scss";
 import BannerComponent from '../../../components/BannerComponent/BannerComponent';
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { Link, Outlet } from 'react-router-dom';
-
+import customerProfileSvg from "../../../assets/profile-customer-icon.svg";
+import statsSvg from "../../../assets/stats-icon.svg";
 const AdminDashboard = () => {
 
   return (
@@ -16,16 +17,16 @@ const AdminDashboard = () => {
         <div className="UserNavBar__middleBloc" >
           <div  className='UserNavBar__navigations'>
             <Link to="/adminDashboard/home">
-              <CustomButton text="Statistiques" svgIcon={undefined} onClick={undefined} variant={''} />
+              <CustomButton text="Statistiques" svgIcon={statsSvg} onClick={undefined} variant={''} />
             </Link>
             <Link to="/adminDashboard/customers">
-              <CustomButton text="Customers" svgIcon={undefined} onClick={undefined} variant={''} />
+              <CustomButton text="Clients" svgIcon={customerProfileSvg} onClick={undefined} variant={''} />
             </Link>
           </div>
         </div>
         <div className='UserNavBar__profileBloc' >
           <div className='UserNavBar__profilePicture'></div>
-          <p className='UserNavBar__profileText'>Profile</p>
+          <p className='UserNavBar__profileText'>Profil</p>
         </div>
       </div>
       <div className='OutletBloc'>
