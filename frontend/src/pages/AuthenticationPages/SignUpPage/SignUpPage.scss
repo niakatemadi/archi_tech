@@ -77,6 +77,13 @@
         color: white;
         font-weight: bold;
     }
+
+    &__failedMessage {
+        position: absolute;
+        height: -20px;
+        color: red;
+        font-weight: bold;
+    }
 }
 
 svg {

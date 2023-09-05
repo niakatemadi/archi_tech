@@ -133,8 +133,8 @@ const CustomerFilesPage = () => {
             </div>
             <div className='MyFilesSection__fileList'>
             {
-              displayFiles.map(({fileLabel, _id, filePath, userId, fileSizeMb, folderId}, index) =>
-                <ItemComponent key={index} isFolderItem={false} buttonText={fileLabel} agreeOnClick={() => DeleteFile(_id,userId,fileSizeMb,folderId)} clickOnItem={() => {}} ><DownloadSvg fileLabel={fileLabel} href={filePath}/> </ItemComponent>
+              displayFiles.map(({fileLabel, _id, filePath, userId, fileSizeMb, folderId, fileName}, index) =>
+                <ItemComponent key={index} isFolderItem={false} buttonText={fileLabel} agreeOnClick={() => DeleteFile(_id,userId,fileSizeMb,folderId)} clickOnItem={() => {}} ><DownloadSvg fileLabel={fileName} href={filePath}/> </ItemComponent>
                 )
             }
             </div>

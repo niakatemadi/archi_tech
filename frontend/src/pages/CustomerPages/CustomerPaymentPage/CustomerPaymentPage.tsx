@@ -5,6 +5,7 @@ import { UserContext } from '../../../utils/contexts/userContext';
 import PaymentCardComponent from '../../../components/PaymentCardComponent/PaymentCardComponent';
 import addStorageAfterPayment from '../../../utils/functions/addStorageAfterPayment';
 import sendPurchasedConfirmation from '../../../utils/functions/sendPurchasedConfirmation';
+import displayStripePaymentWall from '../../../utils/functions/displayStripePaymentWall';
 
 const CustomerPaymentPage = () => {
 
@@ -42,7 +43,7 @@ const CustomerPaymentPage = () => {
       }
     }, []);
     
-    const PaymentPage = async(userId:string) => {
+    /*const PaymentPage = async(userId:string) => {
         const url = "http://localhost:3350/api/v1/create-checkout-session";
         const token = localStorage.getItem("token");
         
@@ -61,7 +62,7 @@ const CustomerPaymentPage = () => {
 
         stripe?.redirectToCheckout({sessionId: data.id});
     }
-
+*/
   return (
     <div className='CustomerPaymentPageBloc'>
       <div className='CustomerPaymentPageBloc__blocTitle'>
@@ -69,7 +70,7 @@ const CustomerPaymentPage = () => {
       </div>
       <div className='CustomerPaymentPageBloc__blocPayments'>
         <h1 className={ isPurchaseSucceed ? "purchaseSucceed" : "purchaseCanceled"}>{ message }</h1>
-        <PaymentCardComponent clickOnPurchaseButton={() => PaymentPage(user._id)} />
+        <PaymentCardComponent clickOnPurchaseButton={() => displayStripePaymentWall(user._id)} />
       </div>
     </div>
   )
