@@ -122,8 +122,7 @@ const CustomerFilesPage = () => {
         setFocusLink("focusPdf");
       }
 
-
-      const sortedArray = [...files].filter((element) => element.fileType ==fileType);
+      const sortedArray = [...files].filter((element) => element.fileType === fileType);
 
       setFilesFiltered(sortedArray)
     }

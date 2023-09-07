@@ -51,7 +51,7 @@ const ItemComponent = ({buttonText, isFolderItem, agreeOnClick, clickOnItem, chi
             <div className="ItemComponent_container" onClick={HandlePropagation} >
                 <h3 className="ItemComponent_title" >Supprimer</h3>
                 <p className="ItemComponent_description">Voulez vous vraiment supprimer ce {isFolderItem ? "dossier" : "fichier"} ?</p>
-                <div className="ItemComponent_buttons"><div className="ItemComponent_button" onClick={DisagreeTrigger} >DISAGREE</div><div className="ItemComponent_button" onClick={AgreeTrigger}>AGREE</div></div>
+                <div className="ItemComponent_buttons"><div className="ItemComponent_button" onClick={DisagreeTrigger} >Annuler</div><div className="ItemComponent_button" onClick={AgreeTrigger}>Oui</div></div>
             </div>
         </div>
     </div>
