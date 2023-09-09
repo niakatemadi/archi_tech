@@ -126,6 +126,19 @@
             justify-content: center;
             align-items: center;
         }
+
+        &__profileText {
+            position: absolute;
+            opacity: 0;
+        }
+
+        &__profilePicture {
+            border-radius: 100px;
+            height: 40px;
+            width: 40px;
+            margin: 0;
+            background-color: green;
+        }
     }
 
 }

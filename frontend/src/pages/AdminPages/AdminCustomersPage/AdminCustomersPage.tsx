@@ -23,7 +23,7 @@ const AdminCustomersPage = () => {
           {
             
             users.map((user) => {
-              return (<div className='CustomerRow' onClick={() => RedirectToCustomerFoldersPage(user)}><p>{user.name}</p><p>{user.firstName}</p><p> <span>{user.totalStorageUsed}</span> Ko utilisé(s)</p><p> <span>{user.totalStoragePurchased}</span> Go acheté(s)</p></div>)
+              return (<div className='CustomerRow' onClick={() => RedirectToCustomerFoldersPage(user)}><p>{user.name}</p><p>{user.firstName}</p><p> <span>{user.totalStorageUsed}</span> Ko</p><p> <span>{user.totalStoragePurchased}</span> Go</p></div>)
             })
           }
         </div>
