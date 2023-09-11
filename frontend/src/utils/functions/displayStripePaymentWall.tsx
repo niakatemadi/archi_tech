@@ -1,11 +1,12 @@
 import { loadStripe } from '@stripe/stripe-js';
-import React from 'react'
 
-const displayStripePaymentWall = async(userId:string, isSignUpStep = false) => {
-    const stripePromise = loadStripe("pk_test_51NjToNBdjD7XjhkGiAnTKFhAu9PewLdhRoKWW1ok1fHmMAZkiQkAEiUxW61GtiDXHsJLgpeOa7DVDQsqrAFDQ1j000VL2esCZw")
+const displayStripePaymentWall = async( isSignUpStep = false ) => {
+
+        const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE_PUBLIC_KEY}`)
         const url = `${"http://localhost:3350/api/v1/create-checkout-session/" + isSignUpStep}`;
         const token = localStorage.getItem("token");
         
+        console.log("env datas",process.env.REACT_APP_STRIPE_PUBLIC_KEY);
         const option = {
             method: "POST",
             headers: {

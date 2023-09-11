@@ -1,5 +1,4 @@
 import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 export type User = {
     name: string,
@@ -51,16 +50,12 @@ export default function UserProvider( {children} : userProviderProps){
         totalStoragePurchased: 0
     });
 
- //   let navigate = useNavigate();
-
     useEffect(() => {
      
         const currentUser = JSON.parse(localStorage.getItem("currentUser") ?? "{}");
 
-        console.log("inside userContext", currentUser)
         if(currentUser != "{}"){
             setUser({name: currentUser.name, firstName: currentUser.firstName, email: currentUser.email, _id: currentUser._id, totalStorageUsed: currentUser.totalStorageUsed, numberOfFiles: currentUser.numberOfFiles, numberOfFolders:currentUser.numberOfFolders, totalStoragePurchased: currentUser.totalStoragePurchased});
-           // navigate("/userDashboard");
         }
     },[])
 

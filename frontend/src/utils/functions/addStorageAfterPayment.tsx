@@ -12,13 +12,9 @@ async function addStorageAfterPayment(userId: string){
         },
         body: JSON.stringify({"userId": userId})
     }
-
-    console.log("iiiiiiiiid",userId)
     
     const response = await fetch(url, options);
     const userUpdated = await response.json();
-
-    console.log("userUpdated", userUpdated)
 
     return userUpdated;
 

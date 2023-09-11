@@ -12,6 +12,12 @@ import BackComponent from '../../../components/BackComponent/BackComponent';
 import pageRedirection from '../../../utils/functions/pageRedirection';
 import upArrow from "../../../assets/up-arrow.svg";
 import downArrow from "../../../assets/down-arrow.svg";
+import deleteFile from '../../../utils/functions/deleteFile';
+import DeleteFile from '../../../utils/functions/deleteFile';
+import AddFileToDb from '../../../utils/functions/addFileToDb';
+import SortFilesByWeight from '../../../utils/functions/sortFilesByWeight';
+import SortFilesByDate from '../../../utils/functions/sortFilesByDate';
+import SortByFileType from '../../../utils/functions/sortByFileType';
 
 const CustomerFilesPage = () => {
 
@@ -25,11 +31,7 @@ const CustomerFilesPage = () => {
     const [isFilesFilteredByAscendingDate, setIsFilesFilteredByAscendingDate] = useState(true);
     const [isFilesFilteredByAscendingWeight, setIsFilesFilteredByAscendingWeight] = useState(true);
     const [messageNewFileAdded, setMessageNewFileAdded] = useState<string>();
-    const [focusLink, setFocusLink] = useState("")
-
-    
-
-    console.log("files filtered inital", filesFiltered);
+    const [focusLink, setFocusLink] = useState("");
 
     const [fileFormData, setFileFormData] = useState<any>({});
 
@@ -40,124 +42,37 @@ const CustomerFilesPage = () => {
       function handleInput(e:any){
         setFileFormData({...fileFormData, [e.target.name] : e.target.value});
       }  
+      function SearchFiles(e:any){
 
-      const HandleUpload = async(e:any) => {
-
-        const formData = new FormData();
-
-        formData.set("file",fileFormData.file);
-        formData.set("fileLabel",fileFormData.fileLabel);
-        formData.set("userId",user._id);
-        formData.set("folderId",folderId);
-
-        const url = "http://localhost:3350/api/v1/files";
-
-        const datas = await useFetch("POST",url, formData, false);
-        
-        if(datas){
-          const userUpdated = datas.userUpdated;
-          localStorage.setItem("currentUser", JSON.stringify(userUpdated));
-          setFiles([...files, datas.file]);
-          setUser(userUpdated);
-          setMessageNewFileAdded("Nouveau fichier ajouté !");
-        }
+        const filesFound = [...files].filter(({fileLabel}) => fileLabel.includes(e.target.value.toLowerCase()));
+        setFilesFiltered(filesFound);
       }
 
-      const DeleteFile = async(fileId: string, userId: string, fileSizeMb: number, folderId: string) => {
+      const displayFiles = filesFiltered.length > 0 ? filesFiltered : files;
 
-        const body = JSON.stringify({userId, fileId, fileSizeMb, folderId});
-
-        const url = "http://localhost:3350/api/v1/files"
-  
-        const {userUpdated, newFilesList} = await useFetch("DELETE",url,body);
-
-        setUser(userUpdated);
-        setFiles(newFilesList);
-        localStorage.setItem("currentUser",JSON.stringify(userUpdated));
-    }
-
-    function SortByDate(){
-      setFocusLink("focusDate");
-
-      if(isFilesFilteredByAscendingDate){
-
-        const sortedArray = [...files].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-        setFilesFiltered(sortedArray);
-        setIsFilesFilteredByAscendingDate(!isFilesFilteredByAscendingDate);
-      }else {
-        
-        const sortedArray = [...files].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        setFilesFiltered(sortedArray);
-        setIsFilesFilteredByAscendingDate(!isFilesFilteredByAscendingDate);
-      }
-    }
-
-    function SortByWeight(){
-      setFocusLink("focusWeight");
-
-      if(isFilesFilteredByAscendingWeight){
-        
-        const sortedArray = [...files].sort((a, b) => a.fileSizeMb - b.fileSizeMb);
-        setFilesFiltered(sortedArray);
-        setIsFilesFilteredByAscendingWeight(!isFilesFilteredByAscendingWeight);
-      }else {
-        
-        const sortedArray = [...files].sort((a, b) => b.fileSizeMb - a.fileSizeMb);
-        setFilesFiltered(sortedArray);
-        setIsFilesFilteredByAscendingWeight(!isFilesFilteredByAscendingWeight);
-      }
-    }
-
-    function SortByFileType(fileType: string){
-
-      console.log("filetype", fileType);
-
-      if(fileType == "image/png"){
-        setFocusLink("focusPng");
-      }
-      if(fileType == "image/jpeg"){
-        setFocusLink("focusJpg");
-      }
-      if(fileType == "application/pdf"){
-        setFocusLink("focusPdf");
-      }
-
-      const sortedArray = [...files].filter((element) => element.fileType === fileType);
-
-      setFilesFiltered(sortedArray)
-    }
-
-    function SearchFiles(e:any){
-
-      const filesFound = [...files].filter(({fileLabel}) => fileLabel.includes(e.target.value.toLowerCase()));
-      setFilesFiltered(filesFound);
-    }
-
-    const displayFiles = filesFiltered.length > 0 ? filesFiltered : files;
- 
       return (
           <div className='MyFilesSection'>
             <BackComponent onClick={() => pageRedirection("/customerDashboard/folders",{},navigate)} />
             <div className='MyFilesSection__header'>
               <p className='MyFilesSection__header--title'> Mes fichiers</p> 
               <input type="text" placeholder=' Rechercher un fichier' onChange={SearchFiles} />
-              <AlertComponent title='Ajouter un fichier' buttonText='Ajouter un fichier' agreeOnClick={HandleUpload}>
+              <AlertComponent title='Ajouter un fichier' buttonText='Ajouter un fichier' agreeOnClick={() => AddFileToDb({fileFormData,setFiles,setUser,setMessageNewFileAdded, files, folderId, userId : user._id})}>
                 <TextField type='text' placeholder=' Nom du fichier' name='fileLabel' onChange={handleInput}/>
                 <TextField type='file' name='file' onChange={handleFile}/>
               </AlertComponent>
             </div>
             <div className='MyFilesSection__filters'>
-              <div className={`${focusLink == "focusDate" && "focusColor"}`} onClick={SortByDate}>Ordonner par dates {isFilesFilteredByAscendingDate ?<img src={upArrow} alt="up arrow" /> : <img src={downArrow} alt='down arrow' />}</div>
-              <div className={`${focusLink == "focusWeight" && "focusColor"}`} onClick={SortByWeight}>Ordonner par poids {isFilesFilteredByAscendingWeight ?<img src={upArrow} alt="up arrow" /> : <img src={downArrow} alt='down arrow' />}</div>
-              <div className={`${focusLink == "focusPng" && "focusColor"}`} onClick={() => SortByFileType("image/png")}>png</div>
-              <div className={`${focusLink == "focusJpg" && "focusColor"}`} onClick={() => SortByFileType("image/jpeg")}>jpg</div>
-              <div className={`${focusLink == "focusPdf" && "focusColor"}`} onClick={() => SortByFileType("application/pdf")}>pdf</div>
+              <div className={`${focusLink == "focusDate" && "focusColor"}`} onClick={() => SortFilesByDate({setFocusLink,isFilesFilteredByAscendingDate, setFilesFiltered, setIsFilesFilteredByAscendingDate, files})}>Ordonner par dates {isFilesFilteredByAscendingDate ?<img src={upArrow} alt="up arrow" /> : <img src={downArrow} alt='down arrow' />}</div>
+              <div className={`${focusLink == "focusWeight" && "focusColor"}`} onClick={() => SortFilesByWeight({setFocusLink,isFilesFilteredByAscendingWeight, setFilesFiltered, setIsFilesFilteredByAscendingWeight, files})}>Ordonner par poids {isFilesFilteredByAscendingWeight ?<img src={upArrow} alt="up arrow" /> : <img src={downArrow} alt='down arrow' />}</div>
+              <div className={`${focusLink == "focusPng" && "focusColor"}`} onClick={() => SortByFileType({fileType: "image/png", setFocusLink, files, setFilesFiltered})}>png</div>
+              <div className={`${focusLink == "focusJpg" && "focusColor"}`} onClick={() => SortByFileType({fileType: "image/jpeg", setFocusLink, files, setFilesFiltered})}>jpg</div>
+              <div className={`${focusLink == "focusPdf" && "focusColor"}`} onClick={() => SortByFileType({fileType: "application/pdf", setFocusLink, files, setFilesFiltered})}>pdf</div>
             </div>
             <span className='MyFilesSection__messageNewFolderAdded'>{messageNewFileAdded}</span>
             <div className='MyFilesSection__fileList'>
             {
               displayFiles.map(({fileLabel, _id, filePath, userId, fileSizeMb, folderId, fileName}, index) =>
-                <ItemComponent key={index} isFolderItem={false} buttonText={fileLabel} agreeOnClick={() => DeleteFile(_id,userId,fileSizeMb,folderId)} clickOnItem={() => {}} ><DownloadSvg fileLabel={fileName} href={filePath}/> </ItemComponent>
+                <ItemComponent key={index} isFolderItem={false} buttonText={fileLabel} agreeOnClick={() => DeleteFile({fileId :_id,userId,fileSizeMb,folderId,setUser, setFiles})} clickOnItem={() => {}} ><DownloadSvg fileLabel={fileName} href={filePath}/> </ItemComponent>
                 )
             }
             </div>

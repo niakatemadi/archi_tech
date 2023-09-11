@@ -4,7 +4,7 @@ const sendConfirmationSignUpEmail = (name: string, email: string) => {
 
     const templateParams = {name, email}
     
-    emailjs.send('service_1gvlff1', 'template_qfb65xi',templateParams, 'Dx3PbDbEX2fS5XUhp')
+    emailjs.send(`${process.env.REACT_APP_EMAILJS_FIRST_SERVICE}`, `${process.env.REACT_APP_EMAILJS_CONFIRMATION_SIGNUP_TEMPLATE}`,templateParams, 'Dx3PbDbEX2fS5XUhp')
     .then((result) => {
         console.log(result.text);
     }, (error) => {

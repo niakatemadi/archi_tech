@@ -4,7 +4,7 @@ const sendPurchasedConfirmation = (firstName: string, email: string) => {
 
     const templateParams = {firstName, email}
     
-    emailjs.send('service_5gjqnjj', 'template_m9syltb',templateParams,"iRTLaSw8IcBCYIKBz")
+    emailjs.send(`${process.env.REACT_APP_EMAILJS_FIRST_SERVICE}`,`${process.env.REACT_APP_EMAILJS_PURCHASE_TEMPLATE}`,templateParams,"iRTLaSw8IcBCYIKBz")
     .then((result) => {
         console.log(result.text);
     }, (error) => {

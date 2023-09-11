@@ -7,7 +7,7 @@ type AlertComponentProps = {
     title: string,
     buttonText:string,
     agreeOnClick: any,
-    children: any
+    children: React.ReactNode
 }
 
 const AlertComponent = ({buttonText, title, agreeOnClick, children}: AlertComponentProps) => {

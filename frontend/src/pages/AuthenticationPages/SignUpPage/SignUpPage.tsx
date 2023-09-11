@@ -16,7 +16,6 @@ const SignUpPage = () => {
     const [signUpForm, setSignUpForm] = useState({ name :"", email:""});
     const { setUser } = useContext(UserContext);
     const [signUpFailedMessage, setSignUpFailedMessage] = useState<string>();
-    const navigate = useNavigate();
 
     function HandleSignUpForm(e:any){
         e.preventDefault();
@@ -24,21 +23,19 @@ const SignUpPage = () => {
     }
 
     async function SendSignUpForm(){
-
       
       const url = "http://localhost:3350/api/v1/signUp";
       
       const { user, token } = await useFetch("POST", url, JSON.stringify(signUpForm));
       localStorage.setItem("currentUser",JSON.stringify(user));
       localStorage.setItem("token",token);
-      console.log("user feteched return",user);
+      
       if(user){
-        
         const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased} = user;
         setUser({name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased});
         sendConfirmationSignUpEmail(signUpForm.name, signUpForm.email);
 
-        displayStripePaymentWall(_id, true);
+        displayStripePaymentWall(true);
 
         return;
       }

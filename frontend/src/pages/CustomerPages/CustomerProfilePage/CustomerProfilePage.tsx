@@ -13,26 +13,15 @@ const CustomerProfilePage = () => {
 
     const {user, setUser} = useContext(UserContext);
     const navigate = useNavigate();
-
-    async function DeleteAccount(userId: string){
-
-        const userDeleted = await deleteUserAccount(user._id);
-
-        sendConfirmationAccountDeletionEmail(userDeleted);
-
-        navigate("/", { state : "userAccountDeleted"});
-      }
       
     async function LogOut(){
         navigate("/", { state : "userLogOut"});
 
     }
 
-
-
   return (
     <div className='CustomerProfileSection'>
-      <AlertButtonComponent title="Suppression de compte" buttonText="Supprimer mon compte" agreeOnClick={() => DeleteAccount(user._id)} description="Voulez vous vraiment supprimer votre compte ?" />
+      <AlertButtonComponent title="Suppression de compte" buttonText="Supprimer mon compte" agreeOnClick={() => deleteUserAccount({userId: user._id, navigate})} description="Voulez vous vraiment supprimer votre compte ?" />
       <AlertButtonComponent title="Déconnexion" buttonText="Se déconnecter" agreeOnClick={LogOut} description="Voulez vous vraiment vous déconnecter ?" />
     </div>
   )

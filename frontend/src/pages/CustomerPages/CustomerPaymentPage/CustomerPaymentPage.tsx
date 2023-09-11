@@ -42,27 +42,9 @@ const CustomerPaymentPage = () => {
         setMessage("Achat Annulé -- Votre achat n'a pas pu etre traité.");
       }
     }, []);
+
+    console.log("dotenvvvv",process.env);
     
-    /*const PaymentPage = async(userId:string) => {
-        const url = "http://localhost:3350/api/v1/create-checkout-session";
-        const token = localStorage.getItem("token");
-        
-        const option = {
-            method: "POST",
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            }
-        }
-
-        const response = await fetch(url,option);
-        const data = await response.json();
-
-        const stripe = await stripePromise;
-
-        stripe?.redirectToCheckout({sessionId: data.id});
-    }
-*/
   return (
     <div className='CustomerPaymentPageBloc'>
       <div className='CustomerPaymentPageBloc__blocTitle'>
@@ -70,7 +52,7 @@ const CustomerPaymentPage = () => {
       </div>
       <div className='CustomerPaymentPageBloc__blocPayments'>
         <h1 className={ isPurchaseSucceed ? "purchaseSucceed" : "purchaseCanceled"}>{ message }</h1>
-        <PaymentCardComponent clickOnPurchaseButton={() => displayStripePaymentWall(user._id)} />
+        <PaymentCardComponent clickOnPurchaseButton={() => displayStripePaymentWall()} />
       </div>
     </div>
   )

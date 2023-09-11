@@ -1,6 +1,12 @@
 import React from 'react'
+import sendConfirmationAccountDeletionEmail from './sendConfirmationAccountDeletionEmail';
 
-const deleteUserAccount = async(userId:any) => {
+type deleteUserAccountProps = {
+  userId: string,
+  navigate : any
+}
+
+const deleteUserAccount = async({userId, navigate} : deleteUserAccountProps) => {
 
     const token = localStorage.getItem("token");
 
@@ -17,7 +23,11 @@ const deleteUserAccount = async(userId:any) => {
     const response = await fetch(url, options);
     const userDeleted = await response.json();
 
-    console.log("userDeleted",userDeleted);
+    if(userDeleted) {
+      sendConfirmationAccountDeletionEmail(userDeleted);
+
+      navigate("/", { state : "userAccountDeleted"});
+    }
 
     return userDeleted;
 }

@@ -1,23 +1,28 @@
 import React from 'react'
+import useFetch from '../hooks/useFetch';
 
-async function createNewFolder(folderFormData: any, userId: string){
-    const token = localStorage.getItem("token");
+type CreateNewFolderProps = {
+  userId: string,
+  setUser: any,
+  setMessageNewFolderAdded : any,
+  setFolders: any,
+  folderFormData: any
+}
 
-    const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({"userId": userId, "folderLabel": folderFormData.folderLabel})
-    }
+const CreateNewFolder = async({userId, setUser, setMessageNewFolderAdded, setFolders, folderFormData} : CreateNewFolderProps) => {
+  const url = "http://localhost:3350/api/v1/folders";
+  const body = {"userId": userId, "folderLabel": folderFormData.folderLabel};
 
-    const url = "http://localhost:3350/api/v1/folders";
-    
-    const response = await fetch(url, options);
-    const datas = response.json();
+  const {userUpdated, newFolderList} = await useFetch("POST",url,JSON.stringify(body));
 
-    return datas;
+  if(userUpdated){
+    setUser(userUpdated);
+    setMessageNewFolderAdded("Nouveau dossier ajouté !")
+
   }
 
-export default createNewFolder
+  setFolders(newFolderList)
+
+  localStorage.setItem("currentUser",JSON.stringify(userUpdated));
+}
+export default CreateNewFolder
