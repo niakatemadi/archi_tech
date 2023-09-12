@@ -2,13 +2,11 @@ import React, { useEffect } from 'react'
 import TextField from '../../../components/TextField/TextField';
 import "./SignUpPage.scss";
 import { useState, useContext } from 'react';
-import axios from "axios";
 import { UserContext } from '../../../utils/contexts/userContext';
 import sendConfirmationSignUpEmail from '../../../utils/functions/sendConfirmationSignUpEmail';
 import { Link, useNavigate } from 'react-router-dom';
 import useFetch from '../../../utils/hooks/useFetch';
 import displayStripePaymentWall from '../../../utils/functions/displayStripePaymentWall';
-import { sign } from 'crypto';
 import deleteUserAccount from '../../../utils/functions/deleteUserAccount';
 
 const SignUpPage = () => {

@@ -2,10 +2,7 @@
 
 const useFetch = async(method:string, url:string, body:any, isJson = true) => {
 
-    const token = localStorage.getItem("token");
-
-
-    console.log("bodyy",body)
+      const token = localStorage.getItem("token");
 
       const options1 = {
           method: method,

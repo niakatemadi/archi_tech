@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "./CustomerProfilePage.scss"
 import { UserContext } from '../../../utils/contexts/userContext';
-import sendConfirmationAccountDeletionEmail from '../../../utils/functions/sendConfirmationAccountDeletionEmail';
 import deleteUserAccount from '../../../utils/functions/deleteUserAccount';
-import {loadStripe} from '@stripe/stripe-js';
-import addStorageAfterPayment from '../../../utils/functions/addStorageAfterPayment';
-import AlertComponent from '../../../components/AlertComponent/AlertComponent';
 import AlertButtonComponent from '../../../components/AlertButtonComponent/AlertButtonComponent';
 import { useNavigate } from 'react-router-dom';
 

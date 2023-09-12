@@ -7,7 +7,6 @@ const useFetchFolders = (currentUserId: string): [any[], React.Dispatch<React.Se
     useEffect(() => {
 
         const token = localStorage.getItem("token");
-        console.log("mytoken",token);
 
         const options = {
             method: 'GET',
@@ -17,13 +16,11 @@ const useFetchFolders = (currentUserId: string): [any[], React.Dispatch<React.Se
             }
         }
 
-      const url = `http://localhost:3350/api/v1/folders/${currentUserId}`;
-
-      console.log("url",url)
+        const url = `http://localhost:3350/api/v1/folders/${currentUserId}`;
 
         fetch(url, options)
         .then(response => response.json())
-        .then( data => {console.log("my folders datas:",data); setFolders(data)})
+        .then( data => (data))
         .catch(err => console.log(err));
         
     },[]);

@@ -13,8 +13,6 @@ const CustomerPaymentPage = () => {
     const [message, setMessage] = useState("");
     const [isPurchaseSucceed, setIsPurchaseSucceed] = useState<boolean>();
 
-    const stripePromise = loadStripe("pk_test_51NjToNBdjD7XjhkGiAnTKFhAu9PewLdhRoKWW1ok1fHmMAZkiQkAEiUxW61GtiDXHsJLgpeOa7DVDQsqrAFDQ1j000VL2esCZw")
-
     useEffect( () => {
       // Check to see if this is a redirect back from Checkout
       const searchParams = new URLSearchParams(window.location.search);
@@ -32,7 +30,6 @@ const CustomerPaymentPage = () => {
         sendPurchasedConfirmation(userFirstName, userEmail);
         
         addStorageAfterPayment(userId).then((userUpdated) => {setUser(userUpdated); localStorage.setItem("currentUser",JSON.stringify(userUpdated));console.log(userUpdated)});
-        console.log("purchase infos user",{userFirstName, userEmail})
        
     }
     
@@ -42,8 +39,6 @@ const CustomerPaymentPage = () => {
         setMessage("Achat Annulé -- Votre achat n'a pas pu etre traité.");
       }
     }, []);
-
-    console.log("dotenvvvv",process.env);
     
   return (
     <div className='CustomerPaymentPageBloc'>

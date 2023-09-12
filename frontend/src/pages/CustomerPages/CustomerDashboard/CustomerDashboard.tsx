@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import "./CustomerDashboard.scss";
 import BannerComponent from '../../../components/BannerComponent/BannerComponent';
 import CustomButton from "../../../components/CustomButton/CustomButton";

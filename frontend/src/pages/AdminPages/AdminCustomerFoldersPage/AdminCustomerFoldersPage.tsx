@@ -22,10 +22,6 @@ const AdminCustomerFoldersPage =  () => {
     const [folderFormData, setFolderFormData] = useState<any>({});
     const [messageNewFolderAdded, setMessageNewFolderAdded] = useState<string>();
 
-    function RedirectToCustomerFilesPage(element:any){
-        navigate("/adminDashboard/customerFiles", {state: {folderInfo : element}});
-    };
-
     function HandleInputData(e:any){
       setFolderFormData({[e.target.name] : e.target.value})
     }
@@ -43,7 +39,7 @@ const AdminCustomerFoldersPage =  () => {
       <span className='MyFoldersSection__messageNewFolderAdded'>{messageNewFolderAdded}</span>
           <div className='MyFoldersSection__folderList'>
             {
-              folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder({folderId:element._id, userId: element.userId, setUser, setFolders})} clickOnItem={() => RedirectToCustomerFilesPage(element)} children={undefined} />)    
+              folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder({folderId:element._id, userId: element.userId, setUser, setFolders})} clickOnItem={() => pageRedirection("/adminDashboard/customerFiles",element,navigate)} children={undefined} />)    
             }         
           </div>
       

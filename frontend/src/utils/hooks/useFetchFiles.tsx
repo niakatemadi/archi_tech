@@ -7,7 +7,6 @@ const useFetchFiles = (folderId: string) : [any[], React.Dispatch<React.SetState
     useEffect(() => {
 
         const token = localStorage.getItem("token");
-        console.log("mytoken",token);
 
         const options = {
             method: 'GET',
@@ -21,7 +20,7 @@ const useFetchFiles = (folderId: string) : [any[], React.Dispatch<React.SetState
   
         fetch(url, options)
         .then(response => response.json())
-        .then( data => {console.log("my folders datas:",data); setFiles(data.filesFound)})
+        .then( data => setFiles(data.filesFound))
         .catch(err => console.log(err));
         
     },[]);

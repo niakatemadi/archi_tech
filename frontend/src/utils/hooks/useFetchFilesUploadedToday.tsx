@@ -6,7 +6,6 @@ const useFetchFilesUploadedToday = (): [any[], React.Dispatch<React.SetStateActi
     useEffect(() => {
 
         const token = localStorage.getItem("token");
-        console.log("mytoken",token);
 
         const options = {
             method: 'GET',
@@ -20,10 +19,11 @@ const useFetchFilesUploadedToday = (): [any[], React.Dispatch<React.SetStateActi
   
         fetch(url, options)
         .then(response => response.json())
-        .then( datas => {console.log("my files uploaded today:",datas.filesFound); setFilesUploadedToday(datas.filesFound)})
+        .then( datas => setFilesUploadedToday(datas.filesFound))
         .catch(err => console.log(err));
         
     },[]);
+
   return [filesUploadedToday, setFilesUploadedToday];
 }
 

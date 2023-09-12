@@ -10,7 +10,7 @@ type ItemComponentProps = {
     buttonText:string,
     agreeOnClick: any,
     clickOnItem:any,
-    children: any
+    children: React.ReactNode
 }
 
 const ItemComponent = ({buttonText, isFolderItem, agreeOnClick, clickOnItem, children}: ItemComponentProps) => {

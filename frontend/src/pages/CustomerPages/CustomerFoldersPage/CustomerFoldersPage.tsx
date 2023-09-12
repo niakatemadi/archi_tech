@@ -9,6 +9,7 @@ import useFetchFolders from '../../../utils/hooks/useFetchFolders';
 import useFetch from '../../../utils/hooks/useFetch';
 import CreateNewFolder from '../../../utils/functions/createNewFolder';
 import DeleteFolder from '../../../utils/functions/deleteFolder';
+import pageRedirection from '../../../utils/functions/pageRedirection';
 
 
 
@@ -41,7 +42,7 @@ const CustomerFoldersPage =  () => {
       <span className='MyFoldersSection__messageNewFolderAdded'>{messageNewFolderAdded}</span>
       <div className='MyFoldersSection__folderList'>
         {
-          folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder({folderId: element._id, userId: element.userId, setUser, setFolders})} clickOnItem={() => RedirectToFilesPage(element)} children={undefined} />)    
+          folders.map( (element, index) => <ItemComponent key={index} isFolderItem buttonText={element.folderLabel} agreeOnClick={() => DeleteFolder({folderId: element._id, userId: element.userId, setUser, setFolders})} clickOnItem={() => pageRedirection("/customerDashboard/files",element,navigate)} children={undefined} />)    
         }         
       </div>
       
