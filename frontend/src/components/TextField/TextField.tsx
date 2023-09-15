@@ -1,14 +1,19 @@
 import React from "react";
 import "./TextField.scss";
-type TextFieldProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+import { ComponentPropsWithoutRef } from 'react';
+
+type TextFieldProps = ComponentPropsWithoutRef<'input'>;
 
 const TextField = (props : TextFieldProps) => {
+
+  console.log("props",props)
   
   return (
     <div className="TextField">
         <label className="TextField__label">
             <input className="TextField__input" {...props} />
         </label>
+        <p className="TextField__error"></p>
     </div>
   )
 }

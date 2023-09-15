@@ -25,7 +25,7 @@ function App() {
         <UserProvider>
           <BrowserRouter>
             <Routes>
-                <Route path="/" element={ <AuthenticationPage />} >
+                <Route path="/" element={ <AuthenticationPage />} > 
                   <Route path="" element={<LogInPage />} />
                   <Route path="signUp" element={<SignUpPage />} />
                 </Route>
@@ -42,6 +42,7 @@ function App() {
                   <Route path="profile" element={<CustomerProfilePage />} />   
                   <Route path="customerFolders" element={<AdminCustomerFoldersPage />} />           
                   <Route path="customerFiles" element={<AdminCustomerFilesPage />} />  
+                  
                 </Route>          
             </Routes>
           </BrowserRouter>

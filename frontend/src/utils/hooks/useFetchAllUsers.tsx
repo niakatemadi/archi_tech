@@ -7,7 +7,6 @@ const useFetchAllUsers = () : [any[], React.Dispatch<React.SetStateAction<any[]>
     useEffect(() => {
         
         const token = localStorage.getItem("token");
-        console.log("mytoken",token);
 
         const options = {
             method: 'GET',
@@ -21,7 +20,7 @@ const useFetchAllUsers = () : [any[], React.Dispatch<React.SetStateAction<any[]>
   
         fetch(url, options)
         .then(response => response.json())
-        .then( datas => {console.log("my users datas:",datas); setUsers(datas)})
+        .then( datas => setUsers(datas))
         .catch(err => console.log(err));
 
     },[]);

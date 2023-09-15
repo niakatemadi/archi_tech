@@ -8,6 +8,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import useFetch from '../../../utils/hooks/useFetch';
 import displayStripePaymentWall from '../../../utils/functions/displayStripePaymentWall';
 import deleteUserAccount from '../../../utils/functions/deleteUserAccount';
+import { useForm } from "react-hook-form"; 
+import { DevTool } from '@hookform/devtools';
 
 const SignUpPage = () => {
 
@@ -15,23 +17,36 @@ const SignUpPage = () => {
     const { setUser } = useContext(UserContext);
     const [signUpFailedMessage, setSignUpFailedMessage] = useState<string>();
 
-    function HandleSignUpForm(e:any){
-        e.preventDefault();
-        setSignUpForm({...signUpForm, [e.target.name]: e.target.value})
+    type SignUpFormDatas = {
+      name : string,
+      firstName : string,
+      email : string,
+      password : string
     }
+    const form = useForm<SignUpFormDatas>({
+      defaultValues : {
+        name: "",
+        firstName : "",
+        email: "",
+        password: ""
+      }
+    })
+    const { handleSubmit, register, formState, control } = form;
+    const { errors } = formState
 
-    async function SendSignUpForm(){
+    async function SendSignUpForm(datas : SignUpFormDatas){
       
       const url = "http://localhost:3350/api/v1/signUp";
-      
-      const { user, token } = await useFetch("POST", url, JSON.stringify(signUpForm));
+      const body = datas;
+      console.log('signup body',body)
+      const { user, token } = await useFetch("POST", url, JSON.stringify(body));
       localStorage.setItem("currentUser",JSON.stringify(user));
       localStorage.setItem("token",token);
       
       if(user){
         const {name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased} = user;
         setUser({name, firstName, email, _id, numberOfFiles, numberOfFolders, totalStorageUsed, totalStoragePurchased});
-        sendConfirmationSignUpEmail(signUpForm.name, signUpForm.email);
+        sendConfirmationSignUpEmail(datas.name, datas.email);
 
         displayStripePaymentWall(true);
 
@@ -68,17 +83,50 @@ const SignUpPage = () => {
             <p>Ou</p>
             <div className='SignUpPage__divider'></div>
           </div>
-          <form className='SignUpPage__form' action="">
+          <form className='SignUpPage__form' action="" onSubmit={handleSubmit(SendSignUpForm)}>
             <div>
-                <TextField placeholder=' Nom' name='name' onChange={HandleSignUpForm} />
-                <TextField placeholder=' Prénom' name='firstName' onChange={HandleSignUpForm} />
-                <TextField placeholder=' Email' name='email' onChange={HandleSignUpForm} />
-                <TextField placeholder=' Mot de passe' type='password' name='password' onChange={HandleSignUpForm} />
+                <div className="TextField">
+                  <label className="TextField__label">
+                      <input type='text' className="TextField__input" {...register("name", {
+                        required : "Lastname is required"
+                      })} />
+                  </label>
+                  <p className="TextField__error">{errors.name?.message}</p>
+                </div>
+                <div className="TextField">
+                  <label className="TextField__label">
+                      <input type='text' className="TextField__input" {...register("firstName", {
+                        required : "Firstname is required"
+                      })} />
+                  </label>
+                  <p className="TextField__error">{errors.firstName?.message}</p>
+                </div>
+                <div className="TextField">
+                  <label className="TextField__label">
+                      <input type='text' className="TextField__input" {...register("email", {
+                        required : "Email is required",
+                        pattern : {
+                          value :  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message : "Email is not valid"
+                        }
+                      })} />
+                  </label>
+                  <p className="TextField__error">{errors.email?.message}</p>
+                </div>
+                <div className="TextField">
+                  <label className="TextField__label">
+                      <input type='password' className="TextField__input" {...register("password", {
+                        required : "Password is required"
+                      })} />
+                  </label>
+                  <p className="TextField__error">{errors.password?.message}</p>
+                </div>
             </div>
             <div className='SignUpPage__termsConditionsBloc'> <input className='SignUpPage__checkbox' type="checkbox" name="termsAndCoditions" id="termsAndCoditions" /> <label htmlFor='termsAndCoditions' className='SignUpPage__termsConditions'>J'accepte les termes et la politique de confidentialité.</label></div>
-            <div className='SignUpPage__sendFormButton' onClick={SendSignUpForm} ><p>S'inscrire</p></div>
+            <button type='submit' className='SignUpPage__sendFormButton' ><p>S'inscrire</p></button>
             <p className='SignUpPage__alreadySignedUp'>Déjà un compte ? <a className='SignUpPage__link' href='#'> <Link to="/">Connectez-vous !</Link></a></p>
           </form>
+          <DevTool control={control} />
     </div>
   )
 }

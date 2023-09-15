@@ -4,14 +4,30 @@ import "./LogInPage.scss";
 import { UserContext } from '../../../utils/contexts/userContext';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useFetch from '../../../utils/hooks/useFetch';
+import { useForm } from 'react-hook-form'
+import { DevTool } from '@hookform/devtools'
 
 const LogInPage = () => {
 
-  const [logInForm, setLogInForm] = useState({});
   const {user, setUser} = useContext(UserContext);
   const [LogInFailedMessage, setLoginFailedMessage] = useState<string>();
   const [messageAlert, setMessageAlert] = useState<string>()
   const { state } = useLocation()
+
+  type LogInFormDatas = {
+    email : string,
+    password : string
+  }
+
+  const form = useForm<LogInFormDatas>({
+    defaultValues : {
+      email : "",
+      password : ""
+    }
+  });
+
+  const { register , control, handleSubmit, formState } = form;
+  const { errors } = formState;
 
   
   useEffect(() => {
@@ -21,23 +37,14 @@ const LogInPage = () => {
     if(state == 'userLogOut'){
       setMessageAlert("Déconnecter avec succès !");
     }
-
   },[])
-
 
   let navigate = useNavigate();
 
-  function HandleLogInForm(e:any){
-      e.preventDefault();
-      setLogInForm({...logInForm, [e.target.name]: e.target.value});
-
-      setLoginFailedMessage("");
-  }
-
-  async function SendLogInForm(){
+  async function SendLogInForm(datas : LogInFormDatas){
 
      const url = "http://localhost:3350/api/v1/logIn";
-     const body = JSON.stringify(logInForm);
+     const body = JSON.stringify(datas);
 
      const {user, token} = await useFetch("POST",url,body);
 
@@ -77,15 +84,34 @@ const LogInPage = () => {
             <p>Ou</p>
             <div className='LogInPage__divider'></div>
           </div>
-          <form className='LogInPage__form' action="">
+          <form className='LogInPage__form' onSubmit={handleSubmit(SendLogInForm)}>
             <div>
-                <TextField name='email' onChange={HandleLogInForm} placeholder=' Email'/>
-                <TextField name='password' type='password' onChange={HandleLogInForm} placeholder=' Mot de passe'/>
-                <p className='LogInPage__forgotPassword'> Mot de passe oublié ?</p>
+              <div className="TextField">
+                <label className="TextField__label">
+                    <input type='text' className="TextField__input" {...register("email", {
+                      required : "email is required",
+                      pattern : {
+                        value :  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message : "Email is not valid"
+                      }
+                    })} />
+                </label>
+                <p className="TextField__error">{errors.email?.message}</p>
+              </div>
+              <div className="TextField">
+                <label className="TextField__label">
+                    <input type='password' className="TextField__input" {...register("password", {
+                      required : "Password is required"
+                    })} />
+                </label>
+                <p className="TextField__error">{errors.password?.message}</p>
+              </div>
+              <p className='LogInPage__forgotPassword'> Mot de passe oublié ?</p>
             </div>
-            <div className='LogInPage__sendFormButton' onClick={SendLogInForm}><p>Se connecter</p></div>
+            <button type='submit' className='LogInPage__sendFormButton'><p>Se connecter</p></button>
             <p className='LogInPage__alreadySignedUp'>Pas encore de compte ? <a className='LogInPage__link' href='#'> <Link to="/signUp">Inscrivez-vous !</Link></a></p>
           </form>
+          <DevTool control={control} />
     </div>
   )
 }
